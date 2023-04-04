@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Account{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    <p>Create a ArtZip account</p>
+        <form id="create-account-form" action="/create-account" method="POST">
+            <p>
+                <input type="text" name="fname" id="acct-fname" placeholder="First Name">
+            </p>
+            <p>
+                <input type="text" name="lname" id="acct-lname" placeholder="Last Name">
+            </p>
+            <p>
+                <input type="email" name="login-form-email" id="acct-email" placeholder="Email" required
+                        data-missing-error="This field is required.">
+            </p>
+            <p>
+                <input type="password" name="password" id="acct-password" placeholder="Password">
+            </p>
+            <p>
+                <input type="number" name="phone_num" id="acct-phone" placeholder="Phone Number(Optional)">
+            </p>
+            <p>
+                <input type="number" name="zipcode" id="acct-zipcode" placeholder="Zipcode(Optional)">
+            </p>
+            <p>
+                <button>Create an Account</button>
+            </p>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

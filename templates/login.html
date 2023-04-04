@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p>Log in</p>
+                <form id="login-form" action="/user-home" method="POST">
+                    <p>
+                        <input type="email" name="login-form-email" id="emai" placeholder="Email" required
+                                data-missing-error="This field is required.">
+                    </p>
+                    <p>
+                        <input type="text" name="password" id="password" placeholder="Password">
+                    </p>
+                    <p>
+                        <button>Log in</button>
+                    </p>
+                    <p>
+                        <a href="/create-account">Create Account</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
