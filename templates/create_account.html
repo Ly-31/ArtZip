@@ -15,14 +15,24 @@
                 <input type="text" name="lname" id="acct-lname" placeholder="Last Name">
             </p>
             <p>
-                <input type="email" name="login-form-email" id="acct-email" placeholder="Email" required
+                <input type="email" name="email" id="acct-email" placeholder="Email" required
                         data-missing-error="This field is required.">
+                <div></div>
             </p>
             <p>
                 <input type="password" name="password" id="acct-password" placeholder="Password">
+                <div class="alert" id="invalid-password" style="display: none;">Invalid password.</div>
+                <div id="password-requirements" style="display: none;">
+                    Password must be:
+                    <ul>
+                        <li>Minimum length of 8 characters.</li>
+                        <li>Has one uppercase character.</li>
+                        <li>Contains one special character: &, %, $, #, !.</li>
+                    </ul>
+                </div>
             </p>
             <p>
-                <input type="number" name="phone_num" id="acct-phone" placeholder="Phone Number(Optional)">
+                <input type="number" name="phone" id="acct-phone" placeholder="Phone Number(Optional)">
             </p>
             <p>
                 <input type="number" name="zipcode" id="acct-zipcode" placeholder="Zipcode(Optional)">
@@ -36,5 +46,7 @@
     </div>
 
 </div>
+
+<script src="/static/js/password_req.js"></script>
 
 {% endblock %}

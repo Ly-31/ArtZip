@@ -3,7 +3,23 @@
 {% block title %}Search Results{% endblock %}
 
 {% block body %}
+    <div id="zipcode-message"></div>
+    <div d="container">
+        <div id="map"></div>
+        <div id="sidebar">
+            <h1>This is search result page</h1>
+            <h2>Results</h2>
+            <ul id="places"></ul>
+            <button id="more">Load more results</button>
+        </div>
+    </div>
 
-    results
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places"></script>
+    <script src="/static/js/search_result.js"></script>
+    <!-- <script
+        async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places&callback=initMap">
+    </script> -->
 
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places"></script> -->
 {% endblock %}
