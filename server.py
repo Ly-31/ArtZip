@@ -84,17 +84,19 @@ def user_homepage():
     return render_template('user_homepage.html')
 
 
-@app.route('/search-result', methods=['POST'])
+@app.route('/search-result')
 def result():
-    """Search for museums on Google Map"""
+    """Returns search result for museums on Google Map"""
 
     zipcode = request.form.get("search-bar-zipcode")
     print(f"********** zipcode:{zipcode}")
     print(type(zipcode))
 
     if zipcode == "":
+        print("No zipcode")
         return redirect('/')
     else:
+        print("Zipcode exist")
         return render_template('search_result.html')
 
     # if len(zipcode) != 5:

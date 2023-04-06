@@ -16,10 +16,14 @@ function validateZipcode(zipcode){
 
 
 form.addEventListener('submit', (evt) =>{
-    evt.preventDefault()
-
+    evt.preventDefault();
     let inputZipcode = document.querySelector("#zipcode").value;
-    // console.log(inputZipcode);
+    loadData(inputZipcode);
+
+})
+
+function loadData(inputZipcode){
+    console.log(inputZipcode);
 
     let message = document.querySelector("#zipcode-message");
 
@@ -42,8 +46,7 @@ form.addEventListener('submit', (evt) =>{
 
         // initMap();
     }
-})
-
+}
 
 
 function geocodeZip(zipcode){
@@ -71,11 +74,11 @@ function geocodeZip(zipcode){
 function initMap(lat, lng) {
     // Create the map.
 
-    const pyrmont = {lat: lat, lng: lng };
+    const center = {lat: lat, lng: lng };
     const map = new google.maps.Map(
     document.getElementById("map"),
     {
-        center: pyrmont,
+        center: center,
         zoom: 17,
     }
     );
@@ -95,7 +98,7 @@ function initMap(lat, lng) {
 
     // Perform a nearby search.
     service.nearbySearch({
-        location: pyrmont,
+        location: center,
         radius: 50000,
         type: "museum",
         keyword: ["museum", "gallery"]
@@ -103,7 +106,9 @@ function initMap(lat, lng) {
         function(results, status, pagination){
         if (status !== "OK" || !results) return;
 
-        addPlaces(results, map);
+        console.log(results);
+
+        addPlaces(results);
         moreButton.disabled = !pagination || !pagination.hasNextPage;
 
         if (pagination && pagination.hasNextPage) {
@@ -116,26 +121,30 @@ function initMap(lat, lng) {
     );
 }
 
-function addPlaces(places, map) {
+function addPlaces(places) {
     const placesList = document.getElementById("places");
 
     for (const place of places) {
-        if (place.geometry && place.geometry.location) {
-            const image = {
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(25, 25),
-            };
+        // if (place.geometry && place.geometry.location) {
+        //     const image = {
+        //     url: place.icon,
+        //     size: new google.maps.Size(71, 71),
+        //     origin: new google.maps.Point(0, 0),
+        //     anchor: new google.maps.Point(17, 34),
+        //     scaledSize: new google.maps.Size(25, 25),
+        //     };
 
         const li = document.createElement("li");
 
         li.textContent = place.name;
         placesList.appendChild(li);
 
-    }
+    // }
     }
 }
 
 // window.initMap = initMap;
+let params = new URLSearchParams(window.location.search);
+let zipcode = params.get('search-bar-zipcode')
+
+loadData(zipcode);
