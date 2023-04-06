@@ -1,6 +1,6 @@
 ArtZip - Discover Art and Culture in Your Neighborhood
 
-ArtZip is a web application that allows users to search for museums based on zip code.
+ArtZip is a web application that allows users to search for museums & art galleries based on zip code.
 
 Getting Started
 
