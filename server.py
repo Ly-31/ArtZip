@@ -6,6 +6,7 @@ from jinja2 import StrictUndefined
 import os
 import json
 import requests
+from time import sleep
 
 app = Flask(__name__)
 app.secret_key = "art"
@@ -84,8 +85,8 @@ def user_homepage():
     return render_template('user_homepage.html')
 
 
-@app.route('/search-result')
-def result():
+# @app.route('/search-result')
+# def result():
     """Returns search result for museums on Google Map"""
 
     zipcode = request.form.get("search-bar-zipcode")
@@ -99,17 +100,76 @@ def result():
         print("Zipcode exist")
         return render_template('search_result.html')
 
-    # if len(zipcode) != 5:
-    #     flash("Invalid zipcode")
-    #     return redirect('/')
-    # else:
-    #     try:
-    #         zipcode = int(zipcode)
-    #         #use api to get the result
-    #         return render_template('search_result.html')
-    #     except:
-    #         flash("Invalid zipcode")
-    #         return redirect('/')
+    if len(zipcode) != 5:
+        flash("Invalid zipcode")
+        return redirect('/')
+    else:
+        try:
+            zipcode = int(zipcode)
+            #use api to get the result
+            return render_template('search_result.html')
+        except:
+            flash("Invalid zipcode")
+            return redirect('/')
+
+
+@app.route('/search-result')
+def result():
+    """Returns search result for museums on Google Map"""
+
+    googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8'
+    zipcode = request.args.get("search-bar-zipcode")
+    print(f"********** zipcode:{zipcode}")
+    print(type(zipcode))
+
+
+    geocode_url = 'https://maps.googleapis.com/maps/api/geocode/json'
+    geocode_param = {'address': zipcode,'key': googlemap_key}
+    geocode_response = requests.get(geocode_url, params=geocode_param)
+
+
+    if geocode_response.status_code != 200:
+        msg = "invalid zipcode"
+        return f"Geocode request failed with status code {geocode_response.status_code}"
+
+    try:
+        geocode_data = geocode_response.json()
+        # print(geocode_data)
+        location = geocode_data['results'][0]['geometry']['location']
+        lat, lng = location['lat'], location['lng']
+
+        places_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
+        places_params = {'location': f'{lat},{lng}', 'radius': 16093, 'type': 'museum', 'keyword': ["museum", "gallery"], 'key': googlemap_key}
+
+        places_response = requests.get(places_url, params=places_params)
+
+        # Check the status of the places request
+        if places_response.status_code != 200:
+            return f"Places request failed with status code {places_response.status_code}"
+
+        places_data = places_response.json()
+        result = places_data['results']
+
+        while 'next_page_token' in places_data:
+            sleep(2)
+            places_params['pagetoken'] = places_data['next_page_token']
+            places_response = requests.get(places_url, params=places_params)
+            places_data = places_response.json()
+            result.extend(places_data['results'])
+
+
+        return render_template('search_result.html', places_data=result, key=googlemap_key)
+
+    except IndexError:
+        return "No results found"
+
+
+
+@app.route('/muse-details')
+def show_muse_details():
+
+    return render_template('muse_details.html')
+
 
 if __name__ == "__main__":
     connect_to_db(app)

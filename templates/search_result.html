@@ -3,23 +3,36 @@
 {% block title %}Search Results{% endblock %}
 
 {% block body %}
-    <div id="zipcode-message"></div>
-    <div d="container">
-        <div id="map"></div>
-        <div id="sidebar">
-            <h1>This is search result page</h1>
-            <h2>Results</h2>
-            <ul id="places"></ul>
-            <button id="more">Load more results</button>
-        </div>
+
+    <div>
+        <h1>Results</h1>
+        <ul>
+            {% for place in places_data %}
+            <div>
+                {% if 'photos' in place %}
+                    <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="">
+                {% else %}
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPHQkWjaybz3kp3PxJSqaB7qlpiQ0vTUuU-Q&usqp=CAU" alt="">
+                {% endif %}
+
+                <div>
+                    <a href="/muse-details/{{place.place_id}}" id="{{place.place_id}}">{{place.name}}</a>
+                </div>
+                <div>Rating: {{place.rating}}</div>
+                <br>
+                <br>
+            </div>
+            {% endfor %}
+        </ul>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places"></script>
     <script src="/static/js/search_result.js"></script>
-    <!-- <script
+    <script
         async
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places&callback=initMap">
-    </script> -->
+    </script>
 
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places"></script> -->
+
 {% endblock %}

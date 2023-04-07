@@ -1,6 +1,7 @@
 """CRUD operations."""
 
 from model import db, User, Museum, User_muse, connect_to_db
+import requests
 
 def create_user(fname, lname, email, password, phone, zipcode):
     """Create and return a new user"""
