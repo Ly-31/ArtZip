@@ -4,26 +4,29 @@
 
 {% block body %}
 
-    <div>
+    <div class="container">
         <h1>Results</h1>
-        <ul>
+        <div class="row">
+
             {% for place in places_data %}
-            <div>
+            <div class="col-4">
                 {% if 'photos' in place %}
-                    <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="">
+                    <img class="muse-img" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="">
                 {% else %}
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPHQkWjaybz3kp3PxJSqaB7qlpiQ0vTUuU-Q&usqp=CAU" alt="">
+                    <img class="muse-img" src="/static/img/muse.png" alt="">
                 {% endif %}
 
                 <div>
-                    <a href="/muse-details/{{place.place_id}}" id="{{place.place_id}}">{{place.name}}</a>
+                    <a href="/muse-details?place_id={{place.place_id}}">{{place.name}}</a>
                 </div>
                 <div>Rating: {{place.rating}}</div>
                 <br>
                 <br>
             </div>
             {% endfor %}
-        </ul>
+        </div>
+        <button id="load-more-results">Load More Results</button>
+
     </div>
 
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places"></script>

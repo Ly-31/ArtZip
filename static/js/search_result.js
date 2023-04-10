@@ -1,25 +1,12 @@
 'use strict';
 
-const form = document.querySelector("#search-bar");
-
-function validateZipcode(zipcode){
-    let hasValidZip = false;
-    console.log(zipcode.length);
-    console.log(parseInt(zipcode));
-
-    if(zipcode.length === 5 && Number.isInteger(parseInt(zipcode))){
-        hasValidZip = true;
-    }
-
-    return hasValidZip;
-}
+const button= document.getElementById("load-more-results")
+let token = 
 
 
 form.addEventListener('submit', (evt) =>{
     evt.preventDefault();
-    let inputZipcode = document.querySelector("#zipcode").value;
     loadData(inputZipcode);
-
 })
 
 function loadData(inputZipcode){

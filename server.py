@@ -13,7 +13,7 @@ app.secret_key = "art"
 app.jinja_env.undefined = StrictUndefined
 
 
-# API_KEY = os.environ['GOOGLEMAP_KEY']
+googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8'
 
 @app.route('/')
 def hompage():
@@ -117,7 +117,6 @@ def user_homepage():
 def result():
     """Returns search result for museums on Google Map"""
 
-    googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8'
     zipcode = request.args.get("search-bar-zipcode")
     print(f"********** zipcode:{zipcode}")
     print(type(zipcode))
@@ -167,8 +166,22 @@ def result():
 
 @app.route('/muse-details')
 def show_muse_details():
+    place_id = request.args.get('place_id')
 
-    return render_template('muse_details.html')
+    details_url = 'https://maps.googleapis.com/maps/api/place/details/json'
+    details_params = {'place_id': place_id, 'key': googlemap_key}
+
+    details_response = requests.get(details_url, params=details_params)
+
+
+    if details_response.status_code == 200:
+        data = details_response.json()
+        museum_details = data['result']
+
+        return render_template('muse_details.html', museum_details=museum_details, key=googlemap_key)
+
+    else:
+        return f"Details request failed with status code {details_response.status_code}"
 
 
 if __name__ == "__main__":
