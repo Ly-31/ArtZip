@@ -4,9 +4,9 @@
 
 {% block body %}
 
-    <div class="container">
+    <div class="container"></div>
         <h1>Results</h1>
-        <div class="row">
+        <div class="row" id="results-container">
 
             {% for place in places_data %}
             <div class="col-4">
@@ -25,17 +25,9 @@
             </div>
             {% endfor %}
         </div>
-        <button id="load-more-results">Load More Results</button>
-
     </div>
+    <button id="load-more-btn" value="{{token}}">Load More Results</button>
 
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places"></script>
-    <script src="/static/js/search_result.js"></script>
-    <script
-        async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places&callback=initMap">
-    </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&libraries=places"></script> -->
+    <!-- <script src="/static/js/search_result.js"></script> -->
 
 {% endblock %}

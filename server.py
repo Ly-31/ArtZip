@@ -85,41 +85,13 @@ def user_homepage():
     return render_template('user_homepage.html')
 
 
-# @app.route('/search-result')
-# def result():
-    """Returns search result for museums on Google Map"""
-
-    zipcode = request.form.get("search-bar-zipcode")
-    print(f"********** zipcode:{zipcode}")
-    print(type(zipcode))
-
-    if zipcode == "":
-        print("No zipcode")
-        return redirect('/')
-    else:
-        print("Zipcode exist")
-        return render_template('search_result.html')
-
-    if len(zipcode) != 5:
-        flash("Invalid zipcode")
-        return redirect('/')
-    else:
-        try:
-            zipcode = int(zipcode)
-            #use api to get the result
-            return render_template('search_result.html')
-        except:
-            flash("Invalid zipcode")
-            return redirect('/')
-
-
 @app.route('/search-result')
 def result():
     """Returns search result for museums on Google Map"""
 
     zipcode = request.args.get("search-bar-zipcode")
-    print(f"********** zipcode:{zipcode}")
-    print(type(zipcode))
+    # print(f"********** zipcode:{zipcode}")
+    # print(type(zipcode))
 
 
     geocode_url = 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -148,6 +120,8 @@ def result():
 
         places_data = places_response.json()
         result = places_data['results']
+        token = ""
+        # token = places_data['next_page_token']
 
         while 'next_page_token' in places_data:
             sleep(2)
@@ -157,15 +131,14 @@ def result():
             result.extend(places_data['results'])
 
 
-        return render_template('search_result.html', places_data=result, key=googlemap_key)
+        return render_template('search_result.html', places_data=result, key=googlemap_key, token=token)
 
     except IndexError:
         return "No results found"
 
 
-
-@app.route('/muse-details')
-def show_muse_details():
+# @app.route('/muse-details')
+# def show_muse_details():
     place_id = request.args.get('place_id')
 
     details_url = 'https://maps.googleapis.com/maps/api/place/details/json'
@@ -182,6 +155,30 @@ def show_muse_details():
 
     else:
         return f"Details request failed with status code {details_response.status_code}"
+
+
+@app.route('/muse-details')
+def show_muse_details():
+    place_id = request.args.get('place_id')
+    museum_details = crud.get_muse_details(place_id)
+
+    return render_template('muse_details.html', museum_details=museum_details, key=googlemap_key)
+
+
+@app.route('/add-to-list', methods=['POST'])
+def add_muse_to_list():
+    place_id = request.form.get("place-id")
+    name = request.form.get("muse-name")
+    website = request.form.get("muse-website")
+    phone = request.form.get("muse-phone" )
+
+    #add to database
+    new_muse = crud.create_museum(name, place_id, website, phone)
+    db.session.add(new_muse)
+    db.session.commit()
+
+    return redirect('/user-home')
+
 
 
 if __name__ == "__main__":

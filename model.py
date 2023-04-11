@@ -13,7 +13,7 @@ class User(db.Model):
     lname = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
-    phone = db.Column(db.BigInteger, nullable=True)
+    phone = db.Column(db.String, nullable=True)
     zipcode = db.Column(db.Integer, nullable=True)
 
     museums = db.relationship("Museum", secondary="user_muses", back_populates="users")
@@ -30,9 +30,8 @@ class Museum(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False, unique=True,)
-    phone = db.Column(db.BigInteger, nullable=True)
-    website = db.Column(db.String, nullable=False)
-    img_url = db.Column(db.String, nullable=False)
+    phone = db.Column(db.String, nullable=True)
+    website = db.Column(db.String, nullable=True)
     googlemap_id = db.Column(db.String, nullable=False)
 
     users = db.relationship("User", secondary="user_muses", back_populates="museums")
@@ -79,9 +78,9 @@ if __name__ == "__main__":
     t1 = User(fname="t1", lname="t11", email="t1@gmail.com", password="dsda")
     t2 = User(fname="t2", lname="t22", email="t2@gmail.com", password="dsdajj", phone=9173652000)
     t3 = User(fname="t3", lname="t33", email="t3@gmail.com", password="dsddda", zipcode=89178)
-    m1 = Museum(name='m1', phone=9182727899, website="m1.com", img_url="img1", googlemap_id="m1")
-    m2 = Museum(name='m2', website="m2.com", img_url="img2", googlemap_id="m2")
-    m3 = Museum(name='m3', phone=6460007899, website="m3.com", img_url="img3", googlemap_id="m3")
+    m1 = Museum(name='m1', phone=9182727899, website="m1.com", googlemap_id="m1")
+    m2 = Museum(name='m2', website="m2.com", googlemap_id="m2")
+    m3 = Museum(name='m3', phone=6460007899, website="m3.com", googlemap_id="m3")
 
     db.session.add_all([t1, t2, t3, m1, m2, m3])
     db.session.commit()
