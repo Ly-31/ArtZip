@@ -45,7 +45,7 @@ def create_museum(name, place_id, website, phone):
 def get_user_by_email(email):
     """return a user object"""
 
-    user = User.query.filter_by(email = email).all()
+    user = User.query.filter_by(email = email).first()
     return user
 
 
@@ -57,7 +57,21 @@ def get_user_password(email):
         password = user[0].password
         return password
 
+def get_all_muse_name():
 
+    museums = Museum.query.all()
+    muse_list = []
+
+    for muse in museums:
+        muse_list.append(muse.name)
+
+    return muse_list
+
+def get_muse_id_by_name(muse_name):
+
+    museum = Museum.query.filter_by(name=muse_name).one()
+
+    return museum.id
 
 
 

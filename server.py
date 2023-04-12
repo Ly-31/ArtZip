@@ -35,16 +35,18 @@ def verify_login():
 
     email = request.form.get("login-form-email")
     password = request.form.get("login-form-password")
+    print(f'form-password: {password}')
 
     db_user = crud.get_user_by_email(email)
     print(f'*****user: {db_user}')
-    print(db_user[0].id)
+    print(db_user.id)
 
-    db_password = crud.get_user_password(email)
 
     if db_user:
+        db_password = db_user.password
+
         if password == db_password:
-            session['user_id'] = db_user[0].id
+            session['user_id'] = db_user.id
             return redirect('/user-home')
         else:
             flash("Incorrect password, please try again.")
@@ -82,7 +84,7 @@ def verify_account():
         db.session.add(new_user)
         db.session.commit()
         flash("Account created successfully")
-        return redirect('user-home')
+        return redirect('/login')
 
 
 @app.route('/user-home')
@@ -251,15 +253,24 @@ def add_muse_to_list():
         website = request.form.get("muse-website")
         phone = request.form.get("muse-phone" )
 
-        #add to database
-        new_muse = crud.create_museum(name, place_id, website, phone)
-        db.session.add(new_muse)
-        db.session.commit()
+        # check if museum already in muse db
+        muse_list = crud.get_all_muse_name()
 
-        muse_id = new_muse.id
-        user_muse = crud.set_user_muse(logged_user,muse_id)
-        db.session.add(user_muse)
-        db.session.commit()
+        if name in muse_list:
+            muse_id = crud.get_muse_id_by_name(name)
+            user_muse = crud.set_user_muse(logged_user,muse_id)
+            db.session.add(user_muse)
+            db.session.commit()
+        else:
+            #add museum to database
+            new_muse = crud.create_museum(name, place_id, website, phone)
+            db.session.add(new_muse)
+            db.session.commit()
+
+            muse_id = new_muse.id
+            user_muse = crud.set_user_muse(logged_user,muse_id)
+            db.session.add(user_muse)
+            db.session.commit()
 
         return redirect('/user-home')
 
