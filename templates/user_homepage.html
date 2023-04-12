@@ -4,4 +4,26 @@
 
 {% block body %}
     <h1>User home page</h1>
+    <br>
+    <br>
+    <div>
+        <h3>Account Information</h3>
+        <div>First Name: {{user.fname}}</div>
+        <div>Last Name: {{user.lname}}</div>
+        <div>Email: {{user.email}}</div>
+        <div>Phone Number: {{user.phone}}</div>
+        <div>Password: {{user.password}}</div>
+    </div>
+    <br>
+    <br>
+    <div>
+        <h3>Liked museums:</h3>
+        {% for museum in museums %}
+            <Ul>
+                <li>
+                    <a href="{{museum.website}}">{{museum.name}}</a>
+                </li>
+            </Ul>
+        {% endfor %}
+    </div>
 {% endblock %}

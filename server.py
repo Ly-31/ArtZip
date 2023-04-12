@@ -35,10 +35,14 @@ def verify_login():
     password = request.form.get("login-form-password")
 
     db_user = crud.get_user_by_email(email)
+    print(f'*****user: {db_user}')
+    print(db_user[0].id)
+
     db_password = crud.get_user_password(email)
 
     if db_user:
         if password == db_password:
+            session['user_id'] = db_user[0].id
             return redirect('/user-home')
         else:
             flash("Incorrect password, please try again.")
@@ -81,8 +85,13 @@ def verify_account():
 
 @app.route('/user-home')
 def user_homepage():
+    logged_user = session.get("user_id")
 
-    return render_template('user_homepage.html')
+    #function to retrive user info by id
+    user = crud.get_user_by_id(logged_user)
+    museums = crud.get_muse_by_id(logged_user)
+
+    return render_template('user_homepage.html', user=user, museums=museums)
 
 
 @app.route('/search-result')
@@ -167,18 +176,29 @@ def show_muse_details():
 
 @app.route('/add-to-list', methods=['POST'])
 def add_muse_to_list():
-    place_id = request.form.get("place-id")
-    name = request.form.get("muse-name")
-    website = request.form.get("muse-website")
-    phone = request.form.get("muse-phone" )
 
-    #add to database
-    new_muse = crud.create_museum(name, place_id, website, phone)
-    db.session.add(new_muse)
-    db.session.commit()
+    # if session['user_id']:
+    logged_user = session.get("user_id")
 
-    return redirect('/user-home')
+    if logged_user is None:
+        return redirect('/login')
+    else:
+        place_id = request.form.get("place-id")
+        name = request.form.get("muse-name")
+        website = request.form.get("muse-website")
+        phone = request.form.get("muse-phone" )
 
+        #add to database
+        new_muse = crud.create_museum(name, place_id, website, phone)
+        db.session.add(new_muse)
+        db.session.commit()
+
+        muse_id = new_muse.id
+        user_muse = crud.set_user_muse(logged_user,muse_id)
+        db.session.add(user_muse)
+        db.session.commit()
+
+        return redirect('/user-home')
 
 
 if __name__ == "__main__":

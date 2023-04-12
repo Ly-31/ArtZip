@@ -110,11 +110,23 @@ def get_muse_details(place_id):
     return museum_details
 
 
+def get_user_by_id(user_id):
 
-def get_muse_by_id(googlemap_id):
+    user = User.query.filter_by(id = user_id).one()
+    return user
 
-    pass
 
+def get_muse_by_id(user_id):
+
+    user = get_user_by_id(user_id)
+    museums = user.museums
+
+    return museums
+
+def set_user_muse(user_id, muse_id):
+    user_muse = User_muse(user_id=user_id, museum_id=muse_id)
+
+    return user_muse
 
 
 if __name__ == '__main__':
