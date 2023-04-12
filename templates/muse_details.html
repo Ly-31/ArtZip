@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>This is museum detail page</h1>
+    <br>
+    <div>
+        <div>
+            <h2>
+                <a href="{{museum_details.get('website', '')}}" id="muse-name">{{museum_details.name}}</a>
+            </h2>
+        </div>
+
+        {% if 'photos' in museum_details %}
+        <a href="{{museum_details.get('website', '')}}" id="muse-website">
+            <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{museum_details.photos[0].photo_reference}}&key={{key}}"
+                alt="Picture of the museum">
+        </a>
+        {% else %}
+            <img class="muse-img" src="/static/img/muse.png" alt="">
+        {% endif %}
+
+        <form id="muse-form" action="/add-to-list" method="POST">
+            <input type="hidden" name="muse-name" value="{{museum_details.name}}">
+            <input type="hidden" name="muse-website" value="{{museum_details.get('website', '')}}">
+            <input type="hidden" name="place-id" value="{{museum_details.place_id}}">
+            {% if 'formatted_phone_number' in museum_details %}
+                <input type="hidden" name="muse-phone" value="{{ museum_details.formatted_phone_number }}">
+            {% endif %}
+            <button type="submit" id="add-to-like">Add to Like</button>
+        </form>
+        <br>
+        <br>
+        <div>
+            {{museum_details.formatted_address}}
+        </div>
+        <br>
+        <div id="muse-phone">
+            {% if 'formatted_phone_number' in museum_details %}
+                {{museum_details.formatted_phone_number}}
+            {% endif %}
+        </div>
+        <br>
+
+        {% if 'rating' in museum_details %}
+            <div>
+                Rating:{{museum_details.rating}}  Total number of ratings:{{museum_details.user_ratings_total}}
+            </div>
+        {% else %}
+            <div>
+                This museum doesn't have any ratings yet.
+            </div>
+
+        {% endif %}
+
+        <br>
+
+        {% if 'review' in museum_details %}
+        <div>
+            Visitor reviews:
+            {% for review in museum_details.reviews %}
+                <div>
+                    Author: {{review.author_name}} Rating: {{review.rating}}
+                </div>
+                <div>
+                    {{review.text}}
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+
+{% endblock %}

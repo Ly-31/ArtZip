@@ -1,17 +1,19 @@
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
 from model import connect_to_db, db
 import crud
-from flask import Flask
+# from flask import Flask
 from jinja2 import StrictUndefined
 import os
 import json
 import requests
 from time import sleep
 
+
 app = Flask(__name__)
 app.secret_key = "art"
 app.jinja_env.undefined = StrictUndefined
 
+GOOGLEMAP_KEY = os.environ['GOOGLEMAP_KEY']
 
 googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8'
 
@@ -94,8 +96,8 @@ def user_homepage():
     return render_template('user_homepage.html', user=user, museums=museums)
 
 
-@app.route('/search-result')
-def result():
+# @app.route('/search-result')
+# def result():
     """Returns search result for museums on Google Map"""
 
     zipcode = request.args.get("search-bar-zipcode")
@@ -129,15 +131,15 @@ def result():
 
         places_data = places_response.json()
         result = places_data['results']
-        token = ""
-        # token = places_data['next_page_token']
 
         while 'next_page_token' in places_data:
             sleep(2)
+            token = places_data['next_page_token']
             places_params['pagetoken'] = places_data['next_page_token']
             places_response = requests.get(places_url, params=places_params)
             places_data = places_response.json()
             result.extend(places_data['results'])
+
 
 
         return render_template('search_result.html', places_data=result, key=googlemap_key, token=token)
@@ -164,6 +166,67 @@ def result():
 
     else:
         return f"Details request failed with status code {details_response.status_code}"
+
+
+@app.route('/search-result')
+def result():
+    """Returns search result for museums on Google Map"""
+
+    googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8'
+    zipcode = request.args.get("search-bar-zipcode")
+    print(f"********** zipcode:{zipcode}")
+    print(type(zipcode))
+
+
+    geocode_url = 'https://maps.googleapis.com/maps/api/geocode/json'
+    geocode_param = {'address': zipcode,'key': googlemap_key}
+    geocode_response = requests.get(geocode_url, params=geocode_param)
+
+
+    # if geocode_response.status_code != 200:
+    #     msg = "invalid zipcode"
+    #     return f"Geocode request failed with status code {geocode_response.status_code}"
+
+    try:
+        geocode_data = geocode_response.json()
+        # print(geocode_data)
+        location = geocode_data['results'][0]['geometry']['location']
+        lat, lng = location['lat'], location['lng']
+
+        places_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
+        places_params = {'location': f'{lat},{lng}', 'radius': 16093, 'type': 'museum', 'keyword': ["museum", "gallery"], 'key': googlemap_key}
+
+        places_response = requests.get(places_url, params=places_params)
+
+        # Check the status of the places request
+        if places_response.status_code != 200:
+            msg = "valid zipcode"
+            return f"Places request failed with status code {places_response.status_code}"
+
+        places_data = places_response.json()
+        print(f'place_data: {places_data}')
+
+        if 'next_page_token' in places_data:
+            token = places_data['next_page_token']
+            print(f'**********result token: {token}')
+
+
+        return render_template('search_result.html', places_data=places_data['results'], key=googlemap_key, token=token)
+    except IndexError:
+        return "No results found"
+
+@app.route('/load-more-results.json')
+def load_more_results():
+    token = request.args.get("token")
+    print(f'*************load more: {token}')
+
+    places_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
+    places_params = {'key': googlemap_key}
+    places_params['pagetoken'] = token
+    places_response = requests.get(places_url, params=places_params)
+    places_data = places_response.json()
+
+    return jsonify(places_data)
 
 
 @app.route('/muse-details')

@@ -19,15 +19,21 @@
                 <div>
                     <a href="/muse-details?place_id={{place.place_id}}">{{place.name}}</a>
                 </div>
+
+                {% if 'rating' in place %}
                 <div>Rating: {{place.rating}}</div>
+                {% endif %}
+
                 <br>
                 <br>
             </div>
             {% endfor %}
         </div>
     </div>
-    <button id="load-more-btn" value="{{token}}">Load More Results</button>
 
-    <!-- <script src="/static/js/search_result.js"></script> -->
+        <button id="load-more-btn" name="token" value="{{token}}">Load More Results</button>
+
+
+    <script src="/static/js/load_more_result.js"></script>
 
 {% endblock %}
