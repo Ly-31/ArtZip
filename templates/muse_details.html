@@ -5,16 +5,27 @@
     <br>
     <div>
         <div>
-            <h2>
-                <a href="{{museum_details.get('website', '')}}" id="muse-name">{{museum_details.name}}</a>
-            </h2>
+            {% if museum_details.get('website', '') != '' %}
+                <h2>
+                    <a href="{{museum_details.get('website', '')}}" id="muse-name">{{museum_details.name}}</a>
+                </h2>
+            {% else %}
+                <h2>
+                    {{museum_details.name}}
+                </h2>
+            {% endif %}
         </div>
 
         {% if 'photos' in museum_details %}
-        <a href="{{museum_details.get('website', '')}}" id="muse-website">
-            <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{museum_details.photos[0].photo_reference}}&key={{key}}"
+            {% if museum_details.get('website', '') != '' %}
+                <a href="{{museum_details.get('website', '')}}" id="muse-website">
+                    <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{museum_details.photos[0].photo_reference}}&key={{key}}"
+                        alt="Picture of the museum">
+                </a>
+            {% else %}
+                <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{museum_details.photos[0].photo_reference}}&key={{key}}"
                 alt="Picture of the museum">
-        </a>
+            {% endif %}
         {% else %}
             <img class="muse-img" src="/static/img/muse.png" alt="">
         {% endif %}
