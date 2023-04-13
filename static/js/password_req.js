@@ -8,7 +8,6 @@ input_password.addEventListener('click', ()=>{
     div.style.display = 'block';
 })
 
-
 function validatePassword(password){
     const specialChar = ["&", "%", "$", "#", "!"]
 

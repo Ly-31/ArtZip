@@ -152,7 +152,7 @@ def result():
 
 @app.route('/load-more-results.json')
 def load_more_results():
-    
+
     token = request.args.get("token")
     print(f'*************load more: {token}')
 
@@ -173,8 +173,8 @@ def show_muse_details():
     return render_template('muse_details.html', museum_details=museum_details, key=googlemap_key)
 
 
-@app.route('/add-to-list', methods=['POST'])
-def add_muse_to_list():
+# @app.route('/add-to-list', methods=['POST'])
+# def add_muse_to_list():
 
     # get current user from the session
     logged_user = session.get("user_id")
@@ -210,6 +210,50 @@ def add_muse_to_list():
             db.session.commit()
 
         return redirect('/user-home')
+
+
+# Test
+@app.route('/add-to-list', methods=['POST'])
+def add_muse_to_list():
+    print(f'************{request.json}')
+    # get current user from the session
+    logged_user = session.get("user_id")
+
+    # if user is not logged in, redirect user to log in page
+    if logged_user is None:
+        return redirect('/login')
+    # if user is logged in, get museum info from the form
+    else:
+        name = request.json.get("name")
+        place_id = request.json.get("placeID")
+        website = request.json.get("website")
+        phone = request.json.get("phone")
+
+        # check if current museum is already in dn
+        muse_list = crud.get_all_muse_name()
+
+        # if the current museum is in db, add this museum to user-muse
+        if name in muse_list:
+            muse_id = crud.get_muse_id_by_name(name)
+            user_muse = crud.set_user_muse(logged_user,muse_id)
+            db.session.add(user_muse)
+            db.session.commit()
+        else:
+            #if the museum is not in db, add museum to db, then add this museum to user-muse
+            new_muse = crud.create_museum(name, place_id, website, phone)
+            db.session.add(new_muse)
+            db.session.commit()
+
+            muse_id = new_muse.id
+            user_muse = crud.set_user_muse(logged_user,muse_id)
+            db.session.add(user_muse)
+            db.session.commit()
+
+        return { "success": True,
+                "status": f"{name} has been added to your liked list."
+        }
+
+
 
 
 if __name__ == "__main__":

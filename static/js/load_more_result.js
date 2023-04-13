@@ -1,11 +1,9 @@
 'use strict';
 
-
 const loadMoreBtn = document.getElementById('load-more-btn');
 loadMoreBtn.addEventListener('click', loadMoreResults);
 
 const googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8';
-
 
 function loadMoreResults() {
     const token = loadMoreBtn.value;

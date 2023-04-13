@@ -19,12 +19,12 @@
             <img class="muse-img" src="/static/img/muse.png" alt="">
         {% endif %}
 
-        <form id="muse-form" action="/add-to-list" method="POST">
-            <input type="hidden" name="muse-name" value="{{museum_details.name}}">
-            <input type="hidden" name="muse-website" value="{{museum_details.get('website', '')}}">
-            <input type="hidden" name="place-id" value="{{museum_details.place_id}}">
+        <form id="muse-form" method="POST">
+            <input type="hidden" id="detail-muse-name" name="muse-name" value="{{museum_details.name}}">
+            <input type="hidden" id="detail-muse-website" name="muse-website" value="{{museum_details.get('website', '')}}">
+            <input type="hidden" id="detail-place-id" name="place-id" value="{{museum_details.place_id}}">
             {% if 'formatted_phone_number' in museum_details %}
-                <input type="hidden" name="muse-phone" value="{{ museum_details.formatted_phone_number }}">
+                <input type="hidden" id="detail-muse-phone" name="muse-phone" value="{{ museum_details.formatted_phone_number }}">
             {% endif %}
             <button type="submit" id="add-to-like">Add to Like</button>
         </form>
@@ -71,5 +71,6 @@
 
     </div>
 
+    <script src="/static/js/add_muse_to_list.js"></script>
 
 {% endblock %}
