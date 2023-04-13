@@ -22,7 +22,6 @@ def create_user(fname, lname, email, password, phone, zipcode):
                 password=password,
                 phone=phone,
                 zipcode=zipcode)
-
     return user
 
 
@@ -46,6 +45,7 @@ def get_user_by_email(email):
     """return a user object"""
 
     user = User.query.filter_by(email = email).first()
+
     return user
 
 
@@ -57,6 +57,7 @@ def get_user_password(email):
         password = user[0].password
         return password
 
+
 def get_all_muse_name():
 
     museums = Museum.query.all()
@@ -67,46 +68,12 @@ def get_all_muse_name():
 
     return muse_list
 
+
 def get_muse_id_by_name(muse_name):
 
     museum = Museum.query.filter_by(name=muse_name).one()
 
     return museum.id
-
-
-
-# def get_search_result(zipcode):
-#     geocode_url = 'https://maps.googleapis.com/maps/api/geocode/json'
-#     geocode_param = {'address': zipcode,'key': googlemap_key}
-#     geocode_response = requests.get(geocode_url, params=geocode_param)
-
-#     msg = ""
-
-#     if geocode_response.status_code != 200:
-#         result = "Invalid zipcode!"
-
-#     try:
-#         geocode_data = geocode_response.json()
-#         # print(geocode_data)
-#         location = geocode_data['results'][0]['geometry']['location']
-#         lat, lng = location['lat'], location['lng']
-
-#         places_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
-#         places_params = {'location': f'{lat},{lng}', 'radius': 16093, 'type': 'museum', 'keyword': ["museum", "gallery"], 'key': googlemap_key}
-
-#         places_response = requests.get(places_url, params=places_params)
-
-#         # Check the status of the places request
-#         if places_response.status_code != 200:
-#             return f"Places request failed with status code {places_response.status_code}"
-
-#         places_data = places_response.json()
-#         result = places_data['results']
-
-#     except IndexError:
-#         msg = "No results found"
-
-#     return result, msg
 
 
 def get_muse_details(place_id):
@@ -136,6 +103,7 @@ def get_muse_by_id(user_id):
     museums = user.museums
 
     return museums
+
 
 def set_user_muse(user_id, muse_id):
     user_muse = User_muse(user_id=user_id, museum_id=muse_id)

@@ -26,12 +26,14 @@ def hompage():
 
 @app.route('/login')
 def login():
+    """Show login page"""
 
     return render_template('login.html')
 
 
 @app.route('/login', methods=['POST'])
 def verify_login():
+    """Verify if user exist in the database"""
 
     email = request.form.get("login-form-email")
     password = request.form.get("login-form-password")
@@ -58,7 +60,7 @@ def verify_login():
 
 @app.route('/create-account')
 def create_account():
-    """Add a new user to our database."""
+    """Show create account page"""
 
     return render_template('create_account.html')
 
@@ -89,6 +91,8 @@ def verify_account():
 
 @app.route('/user-home')
 def user_homepage():
+    """Show user homepage"""
+
     logged_user = session.get("user_id")
 
     #function to retrive user info by id
@@ -98,15 +102,16 @@ def user_homepage():
     return render_template('user_homepage.html', user=user, museums=museums)
 
 
-# @app.route('/search-result')
-# def result():
-    """Returns search result for museums on Google Map"""
+@app.route('/search-result')
+def result():
+    """Returns search result for museums using google places API"""
 
+    googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8'
     zipcode = request.args.get("search-bar-zipcode")
-    # print(f"********** zipcode:{zipcode}")
-    # print(type(zipcode))
+    print(f"********** zipcode:{zipcode}")
+    print(type(zipcode))
 
-
+    # use google API to retrieve lng and lat from Zipcode
     geocode_url = 'https://maps.googleapis.com/maps/api/geocode/json'
     geocode_param = {'address': zipcode,'key': googlemap_key}
     geocode_response = requests.get(geocode_url, params=geocode_param)
@@ -115,79 +120,6 @@ def user_homepage():
     if geocode_response.status_code != 200:
         msg = "invalid zipcode"
         return f"Geocode request failed with status code {geocode_response.status_code}"
-
-    try:
-        geocode_data = geocode_response.json()
-        # print(geocode_data)
-        location = geocode_data['results'][0]['geometry']['location']
-        lat, lng = location['lat'], location['lng']
-
-        places_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
-        places_params = {'location': f'{lat},{lng}', 'radius': 16093, 'type': 'museum', 'keyword': ["museum", "gallery"], 'key': googlemap_key}
-
-        places_response = requests.get(places_url, params=places_params)
-
-        # Check the status of the places request
-        if places_response.status_code != 200:
-            return f"Places request failed with status code {places_response.status_code}"
-
-        places_data = places_response.json()
-        result = places_data['results']
-
-        while 'next_page_token' in places_data:
-            sleep(2)
-            token = places_data['next_page_token']
-            places_params['pagetoken'] = places_data['next_page_token']
-            places_response = requests.get(places_url, params=places_params)
-            places_data = places_response.json()
-            result.extend(places_data['results'])
-
-
-
-        return render_template('search_result.html', places_data=result, key=googlemap_key, token=token)
-
-    except IndexError:
-        return "No results found"
-
-
-# @app.route('/muse-details')
-# def show_muse_details():
-    place_id = request.args.get('place_id')
-
-    details_url = 'https://maps.googleapis.com/maps/api/place/details/json'
-    details_params = {'place_id': place_id, 'key': googlemap_key}
-
-    details_response = requests.get(details_url, params=details_params)
-
-
-    if details_response.status_code == 200:
-        data = details_response.json()
-        museum_details = data['result']
-
-        return render_template('muse_details.html', museum_details=museum_details, key=googlemap_key)
-
-    else:
-        return f"Details request failed with status code {details_response.status_code}"
-
-
-@app.route('/search-result')
-def result():
-    """Returns search result for museums on Google Map"""
-
-    googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8'
-    zipcode = request.args.get("search-bar-zipcode")
-    print(f"********** zipcode:{zipcode}")
-    print(type(zipcode))
-
-
-    geocode_url = 'https://maps.googleapis.com/maps/api/geocode/json'
-    geocode_param = {'address': zipcode,'key': googlemap_key}
-    geocode_response = requests.get(geocode_url, params=geocode_param)
-
-
-    # if geocode_response.status_code != 200:
-    #     msg = "invalid zipcode"
-    #     return f"Geocode request failed with status code {geocode_response.status_code}"
 
     try:
         geocode_data = geocode_response.json()
@@ -217,8 +149,10 @@ def result():
     except IndexError:
         return "No results found"
 
+
 @app.route('/load-more-results.json')
 def load_more_results():
+    
     token = request.args.get("token")
     print(f'*************load more: {token}')
 
@@ -242,27 +176,30 @@ def show_muse_details():
 @app.route('/add-to-list', methods=['POST'])
 def add_muse_to_list():
 
-    # if session['user_id']:
+    # get current user from the session
     logged_user = session.get("user_id")
 
+    # if user is not logged in, redirect user to log in page
     if logged_user is None:
         return redirect('/login')
+    # if user is logged in, get museum info from the form
     else:
         place_id = request.form.get("place-id")
         name = request.form.get("muse-name")
         website = request.form.get("muse-website")
         phone = request.form.get("muse-phone" )
 
-        # check if museum already in muse db
+        # check if current museum is already in dn
         muse_list = crud.get_all_muse_name()
 
+        # if the current museum is in db, add this museum to user-muse
         if name in muse_list:
             muse_id = crud.get_muse_id_by_name(name)
             user_muse = crud.set_user_muse(logged_user,muse_id)
             db.session.add(user_muse)
             db.session.commit()
         else:
-            #add museum to database
+            #if the museum is not in db, add museum to db, then add this museum to user-muse
             new_muse = crud.create_museum(name, place_id, website, phone)
             db.session.add(new_muse)
             db.session.commit()
