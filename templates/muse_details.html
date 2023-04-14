@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block body %}
+    <!-- Shows museum details -->
     <h1>This is museum detail page</h1>
     <br>
     <div>
         <div>
+            <!-- Check if the museum has a website -->
             {% if museum_details.get('website', '') != '' %}
                 <h2>
                     <a href="{{museum_details.get('website', '')}}" id="muse-name">{{museum_details.name}}</a>
@@ -16,6 +18,7 @@
             {% endif %}
         </div>
 
+        <!-- Check if the museum has a photo -->
         {% if 'photos' in museum_details %}
             {% if museum_details.get('website', '') != '' %}
                 <a href="{{museum_details.get('website', '')}}" id="muse-website">
@@ -30,6 +33,7 @@
             <img class="muse-img" src="/static/img/muse.png" alt="">
         {% endif %}
 
+        <!-- Hidden form that contains current museum infos -->
         <form id="muse-form" method="POST">
             <input type="hidden" id="detail-muse-name" name="muse-name" value="{{museum_details.name}}">
             <input type="hidden" id="detail-muse-website" name="muse-website" value="{{museum_details.get('website', '')}}">
@@ -37,21 +41,27 @@
             {% if 'formatted_phone_number' in museum_details %}
                 <input type="hidden" id="detail-muse-phone" name="muse-phone" value="{{ museum_details.formatted_phone_number }}">
             {% endif %}
+            <!-- Button that allow user to click this current museum -->
             <button type="submit" id="add-to-like">Add to Like</button>
         </form>
         <br>
         <br>
         <div>
+            <!-- Shows museum's address-->
             {{museum_details.formatted_address}}
         </div>
         <br>
+        <!-- Show museums's phone-->
         <div id="muse-phone">
             {% if 'formatted_phone_number' in museum_details %}
                 {{museum_details.formatted_phone_number}}
+            {% else %}
+                This museum doesn't have a phone number.
             {% endif %}
         </div>
         <br>
 
+        <!-- Check and show museum's ratings-->
         {% if 'rating' in museum_details %}
             <div>
                 Rating:{{museum_details.rating}}  Total number of ratings:{{museum_details.user_ratings_total}}
@@ -65,6 +75,7 @@
 
         <br>
 
+        <!-- Check and show museum's reviews-->
         {% if 'review' in museum_details %}
         <div>
             Visitor reviews:
@@ -76,12 +87,15 @@
                     {{review.text}}
                 </div>
                 <br>
+            {% else %}
+                This museum doesn't have any reviews yet.
             {% endfor %}
         </div>
         {% endif %}
 
     </div>
 
+    <!-- Load JS that will run when load like button is clicked -->
     <script src="/static/js/add_muse_to_list.js"></script>
 
 {% endblock %}

@@ -5,21 +5,28 @@
 {% block body %}
 
     <div class="container"></div>
+
+        <!-- Shows the result from search-->
         <h1>Results</h1>
         <div class="row" id="results-container">
 
+            <!-- Loop over list of museum object -->
             {% for place in places_data %}
             <div class="col-4">
+
+                <!-- Check if the current museum has photo and make API request to ge the photo-->
                 {% if 'photos' in place %}
                     <img class="muse-img" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="">
                 {% else %}
                     <img class="muse-img" src="/static/img/muse.png" alt="">
                 {% endif %}
 
+                <!-- Display museum name, which is also a route to /muse-detail with the place_id as a key to retrieve museum details-->
                 <div>
                     <a href="/muse-details?place_id={{place.place_id}}">{{place.name}}</a>
                 </div>
 
+                <!-- Check if the current museum has rating-->
                 {% if 'rating' in place %}
                 <div>Rating: {{place.rating}}</div>
                 {% endif %}
@@ -31,9 +38,10 @@
         </div>
     </div>
 
-        <button id="load-more-btn" name="token" value="{{token}}">Load More Results</button>
+    <!-- Button that loads next batch result -->
+    <button id="load-more-btn" name="token" value="{{token}}">Load More Results</button>
 
-
+    <!-- Load JS that will run when load result button is clicked -->
     <script src="/static/js/load_more_result.js"></script>
 
 {% endblock %}

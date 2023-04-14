@@ -5,7 +5,7 @@
 {% block body %}
 
 <div class="container">
-
+    <!-- Create Account Form -->
     <p>Create a ArtZip account</p>
         <form id="create-account-form" action="/create-account" method="POST">
             <p>
@@ -22,6 +22,7 @@
             <p>
                 <input type="password" name="password" id="acct-password" placeholder="Password">
                 <div class="alert" id="invalid-password" style="display: none;">Invalid password.</div>
+                <!-- Password requirements, with show when user clicks on the password input field -->
                 <div id="password-requirements" style="display: none;">
                     Password must be:
                     <ul>
@@ -40,13 +41,11 @@
             <p>
                 <button>Create an Account</button>
             </p>
-
         </form>
-
     </div>
-
 </div>
 
+<!-- Load JS what checks if input password has meet the requirements-->
 <script src="/static/js/password_req.js"></script>
 
 {% endblock %}
