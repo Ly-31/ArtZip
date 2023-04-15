@@ -22,12 +22,32 @@ def hompage():
 
     return render_template('homepage.html')
 
+@app.route('/user-session', methods=['POST'])
+def check_user_in_session():
+    """Check if there is a user in session"""
+
+    # get the user id from session
+    logged_user = session.get("user_id")
+
+    if logged_user is not None:
+        return {"user_id": True}
+    else:
+        return {"user_id": False}
+
 
 @app.route('/login')
 def login():
     """Show login page"""
 
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    if 'user_id' in session:
+        session.pop('user_id', None)
+        return redirect('/')
+    else:
+        return redirect('/login')
 
 
 @app.route('/login', methods=['POST'])
@@ -191,6 +211,7 @@ def show_muse_details():
 
     # get the place_ id of that specific museum use click on
     place_id = request.args.get('place_id')
+
     # get the museum dict using the place_id
     # get_muse_details() takes the place_id as input
     # and make a place API request to retrieve json object of the place

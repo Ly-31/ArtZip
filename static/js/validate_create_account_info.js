@@ -1,15 +1,13 @@
 'use strict';
 
-// get the create account form
-const account_form = document.getElementById("create-account-form");
+// get the create account form and form inputs
+const account_form = document.getElementById('create-account-form');
 
 const inputFirstName = document.querySelector('#acct-fname');
 const inputLastName = document.querySelector('#acct-lname');
 const inputPassword = document.querySelector('#acct-password');
-
-console.log(inputFirstName)
-console.log(inputLastName)
-console.log(inputPassword)
+const inputPhone = document.querySelector('#acct-phone');
+const inputZipcode = document.querySelector('#acct-zipcode');
 
 // function that check if input first name is empty
 function validateFirstName(firstName){
@@ -57,6 +55,30 @@ function validatePassword(password){
     return hasMinLength && hasUppercase && hasSpecialChar;
 }
 
+// function that validate phone number
+function validatePhone(phone){
+    pass
+}
+
+// function that validate zipcode
+function validateZipcode(zipcode){
+    console.log('validate zipcode')
+    if (zipcode.value.length === 5){
+        try {
+            parseInt(zipcode.value, 10);
+            return true;
+        }
+        catch(error){
+            // var div = document.getElementById('invalid-zipcode');
+            // div.style.display = 'block';
+            console.log(error);
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
 // add a event listener on the password input field
 // the password requirements div will show when user click on the password input field
 inputPassword.addEventListener('click', ()=>{
@@ -96,7 +118,7 @@ account_form.addEventListener('submit', (evt) =>{
 
     // check if the input password met the password requirement
     // prevent the form subission if the input password doesn't meet the requirement
-    if (validatePassword(input_password.value) == false){
+    if (validatePassword(inputPassword.value) == false){
         evt.preventDefault()
 
         // select the div that shows password not met msg
@@ -107,6 +129,18 @@ account_form.addEventListener('submit', (evt) =>{
             div.style.display = 'block';
         }else{
             div.style.display = 'none';
+        }
+    }
+
+    // check if user enter a zipcode
+
+    if (inputZipcode.value.length !== 0){
+        console.log(inputZipcode.value);
+        if (validateZipcode(inputZipcode.value) === false){
+            evt.preventDefault();
+
+            var div = document.getElementById('invalid-zipcode');
+            div.style.display = 'block';
         }
     }
 });
