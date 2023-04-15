@@ -16,30 +16,7 @@ form.addEventListener('submit', evt => {
         phone: document.querySelector('#detail-muse-phone').value
     }
 
-    // make a ajax post request to /add-to-list route
-    // which will add current museum to user liked list
-    fetch(('/add-to-list'), {
-        method: "POST",
-        body: JSON.stringify(formInputs),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-    .then((response) => response.json())
-    .then((responseJson) =>{
-        alert(responseJson.status);
-    })
-    .catch(error => console.error(error));
-
-});
-
-
-
-form.addEventListener('submit', evt => {
-    // prevent the form from submitting
-    evt.preventDefault()
-
-    // ajax reques to check if there is user in session
+     // ajax request to check if there is user in session
     fetch(('/user-session'),{
         method: "POST",
         headers: {
@@ -58,4 +35,21 @@ form.addEventListener('submit', evt => {
 
     );
 
+
+    // make a ajax post request to /add-to-list route
+    // which will add current museum to user liked list
+    fetch(('/add-to-list'), {
+        method: "POST",
+        body: JSON.stringify(formInputs),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then((response) => response.json())
+    .then((responseJson) =>{
+        alert(responseJson.status);
+    })
+    .catch(error => console.error(error));
+
 });
+
