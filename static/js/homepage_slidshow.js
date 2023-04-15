@@ -26,13 +26,13 @@ function showSlides() {
 
     // loop over the dots, and remove active from class
     for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace("active", "");
+        dots[i].className = dots[i].className.replace(" active", "");
     }
 
     // show the slide that corresponse to the current slide index
     // add active to current dot's class
     slides[slideIndex-1].style.display = "block";
-    dots[slideIndex-1].className += "active";
+    dots[slideIndex-1].className += " active";
 
     // set a timer to call the slide show function every 3 seconds
     setTimeout(showSlides, 3000);

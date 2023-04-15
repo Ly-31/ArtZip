@@ -148,6 +148,12 @@ def result():
 
     # get the zipcode user searched from the search bar
     zipcode = request.args.get("search-bar-zipcode")
+    print(f'*****{zipcode}')
+
+    # check if user entered a zipcode
+    if zipcode == "":
+        flash('Please enter a zipcode.')
+        return redirect('/')
 
     # use google geocode API to retrieve lng and lat from Zipcode
     # send request to geocode API with the zipcode as param
