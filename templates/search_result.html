@@ -7,17 +7,17 @@
     <div class="container">
 
         <!-- Shows the result from search-->
-        <div class="row" id="results-container">
+        <div class="row d-flex justify-content-around" id="results-container">
 
             <!-- Loop over list of museum object -->
             {% for place in places_data %}
-            <div class="col col-4">
+            <div class="col-12 col-md-6 col-lg-4 my-4">
 
                 <!-- Check if the current museum has photo and make API request to ge the photo-->
                 {% if 'photos' in place %}
-                    <img class="muse-img img-fluid" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="museum">
+                    <img class="muse-img img-fluid my-2" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="museum">
                 {% else %}
-                    <img class="muse-img img-fluid" src="/static/img/muse.png" alt="museum">
+                    <img class="muse-img img-fluid my-2" src="/static/img/muse.png" alt="museum">
                 {% endif %}
 
                 <!-- Display museum name, which is also a route to /muse-detail with the place_id as a key to retrieve museum details-->
@@ -30,8 +30,7 @@
                 <div>Rating: {{place.rating}}</div>
                 {% endif %}
 
-                <br>
-                <br>
+
             </div>
             {% endfor %}
         </div>

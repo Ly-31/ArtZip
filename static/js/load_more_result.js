@@ -25,15 +25,15 @@ function loadMoreResults() {
         // extract the list of museums datas from the response
         const placesData = data.results;
 
-        // create a new div element to hold the result data
-        const newResultsContainer = document.createElement('div');
-        newResultsContainer.classList.add('row')
+        // select the result div to add
+        const resultsContainer = document.getElementById('results-container');
+
 
         // loop over the list of museums, and extract needed datas
         placesData.forEach(place => {
             // create a div for each museum
             const placeElement = document.createElement('div');
-            placeElement.classList.add('col-4')
+            placeElement.classList.add('col-12', 'col-md-6', 'col-lg-4', 'my-4');
             let imgUrl;
 
             // check if the museum has photo
@@ -45,24 +45,16 @@ function loadMoreResults() {
 
             // add current museum data to the museum div
             placeElement.innerHTML = `
-                <div>
-                    <img class="muse-img" src="${imgUrl}" alt="">
+                    <img class="muse-img img-fluid my-2" src="${imgUrl}" alt="">
                     <div>
                     <a href="/muse-details?place_id=${place.place_id}">${place.name}</a>
                     </div>
                     <div>Rating: ${place.rating}</div>
-                    <br>
-                    <br>
-                </div>
             `;
 
             // append current museum div to the result div
-            newResultsContainer.appendChild(placeElement);
+            resultsContainer.insertAdjacentElement('beforeend', placeElement);
         });
-
-        // select the div to add this new result container
-        const resultsContainer = document.getElementById('results-container');
-        resultsContainer.appendChild(newResultsContainer);
 
         // If there is a new token, update the button value with the new token
         if (data.next_page_token) {
