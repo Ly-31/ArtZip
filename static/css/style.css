@@ -1,8 +1,21 @@
 .navbar{
-    background-color: #EDE6E9;
+    background-color: lightskyblue;
 }
 
-* {box-sizing:border-box}
+* {
+    box-sizing: border-box;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.navbar-brand{
+    font-family:'Courier New', Courier, monospace;
+    font-weight: bold;
+    /* font-size: auto; */
+}
+
+.homepage-content{
+    font-family:'Courier New', Courier, monospace;
+}
 
 /* Slideshow container */
 .slideshow-container {
@@ -48,6 +61,15 @@
 }
 
 
-.muse-img{
-    
+.login{
+    background-image: url('/static/img/login.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Poppins', sans-serif;
+}
+
+.input{
+    opacity: 0.7;
 }

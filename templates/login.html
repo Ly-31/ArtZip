@@ -3,28 +3,33 @@
 {% block title %}Log in{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <!-- Login form -->
-                <p>Log in</p>
-                <form id="login-form" action="/login" method="POST">
-                    <p>
-                        <input type="email" name="login-form-email" id="emai" placeholder="Email" required
-                                data-missing-error="This field is required.">
-                    </p>
-                    <p>
-                        <input type="password" name="login-form-password" id="password" placeholder="Password">
-                    </p>
-                    <p>
-                        <button>Log in</button>
-                    </p>
-                    <p>
-                        <!-- Link to creat account page -->
-                        <a href="/create-account">Create Account</a>
-                    </p>
-                </form>
-            </div>
+<section class="vh-100 login">
+    <div class="container py-5 h-100">
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <div class="card shadow-2-strong" style="border-radius: 1rem; background-color: rgba(255, 255, 255, 0.5)">
+                <div class="card-body p-5 text-center">
+            <!-- Login form -->
+            <form id="login-form" action="/login" method="POST">
+                <h5 class="form-outline mb-4" style="font-weight: bold;">Sign into your account</h5>
+                <div class="form-outline mb-4">
+                    <input class="input form-control form-control-lg" type="email" name="login-form-email" id="emai" placeholder="Email" required>
+                </div>
+                <div class="form-outline mb-4">
+                    <input class="input form-control form-control-lg" type="password" name="login-form-password" id="password" placeholder="Password" required>
+                </div>
+                <div class="form-outline mb-4">
+                    <button class="btn btn-lg btn-block btn-primary mb-2" type="submit">Sign In</button>
+                </div>
+                <!-- Link to creat account page -->
+                <p>
+                    Not a member?
+                    <a data-toggle="tab" href="/create-account">Sign up</a>
+                </p>
+            </form>
+        </div>
+        </div>
         </div>
     </div>
+</section>
+
 {% endblock %}
