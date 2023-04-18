@@ -4,21 +4,20 @@
 
 {% block body %}
 
-    <div class="container"></div>
+    <div class="container">
 
         <!-- Shows the result from search-->
-        <h1>Results</h1>
         <div class="row" id="results-container">
 
             <!-- Loop over list of museum object -->
             {% for place in places_data %}
-            <div class="col-4">
+            <div class="col col-4">
 
                 <!-- Check if the current museum has photo and make API request to ge the photo-->
                 {% if 'photos' in place %}
-                    <img class="muse-img" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="">
+                    <img class="muse-img img-fluid" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="museum">
                 {% else %}
-                    <img class="muse-img" src="/static/img/muse.png" alt="">
+                    <img class="muse-img img-fluid" src="/static/img/muse.png" alt="museum">
                 {% endif %}
 
                 <!-- Display museum name, which is also a route to /muse-detail with the place_id as a key to retrieve museum details-->
