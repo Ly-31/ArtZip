@@ -3,29 +3,41 @@
 {% block title %}User Profile{% endblock %}
 
 {% block body %}
-    <h1>User home page</h1>
-    <br>
-    <br>
-    <div>
+
+<section class="vh-100 user-home">
+    <div class="container py-4 mx-auto">
+        <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
         <!-- Shows user account info-->
-        <h3>Account Information</h3>
-        <div>First Name: {{user.fname}}</div>
-        <div>Last Name: {{user.lname}}</div>
-        <div>Email: {{user.email}}</div>
-        <div>Phone Number: {{user.phone}}</div>
-        <div>Password: {{user.password}}</div>
+            <div class="card my-5 shadow-lg" style="width: 45rem; border-radius: 1rem; background-color: rgba(255, 255, 255, 0.5)">
+                <div class="card-header fw-bold">
+                    Account Information
+                </div>
+                <div class="card-body">
+                    <div>First Name: {{user.fname}}</div>
+                    <div>Last Name: {{user.lname}}</div>
+                    <div>Email: {{user.email}}</div>
+                    <div>Phone Number: {{user.phone}}</div>
+                    <div>Password: {{user.password}}</div>
+                </div>
+            </div>
+
+            <!-- Shows all the museums the user liked -->
+            <div class="card my-5 shadow-lg" style="width: 45rem; border-radius: 1rem; background-color: rgba(255, 255, 255, 0.5)"">
+                <div class="card-header fw-bold">
+                    Liked museums:
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for museum in museums %}
+                            <li>
+                                <a href="{{museum.website}}">{{museum.name}}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <br>
-    <br>
-    <div>
-        <!-- Shows all the museums the user liked -->
-        <h3>Liked museums:</h3>
-        {% for museum in museums %}
-            <Ul>
-                <li>
-                    <a href="{{museum.website}}">{{museum.name}}</a>
-                </li>
-            </Ul>
-        {% endfor %}
-    </div>
+</section>
+
 {% endblock %}
