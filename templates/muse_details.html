@@ -4,100 +4,89 @@
 
 {% block body %}
     <!-- Shows museum details -->
-    <h1>This is museum detail page</h1>
-    <br>
-    <div>
+<div>
+    <div class="container justify-content-center vh-100 my-5">
         <div>
             <!-- Check if the museum has a website -->
             {% if museum_details.get('website', '') != '' %}
-                <h2>
-                    <a href="{{museum_details.get('website', '')}}" id="muse-name">{{museum_details.name}}</a>
+                <h2 class="muse-name">
+                    <a href="{{museum_details.get('website', '')}}" id="muse-name"><strong>{{museum_details.name}}</strong></a>
                 </h2>
             {% else %}
-                <h2>
-                    {{museum_details.name}}
+                <h2 class="muse-name">
+                    <strong>{{museum_details.name}}</strong>
                 </h2>
             {% endif %}
         </div>
 
         <!-- Check if the museum has a photo -->
-        {% if 'photos' in museum_details %}
-            {% if museum_details.get('website', '') != '' %}
-                <a href="{{museum_details.get('website', '')}}" id="muse-website">
-                    <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{museum_details.photos[0].photo_reference}}&key={{key}}"
-                        alt="Picture of the museum">
-                </a>
+        <div class="muse-photo">
+            {% if 'photos' in museum_details %}
+                {% if museum_details.get('website', '') != '' %}
+                    <a href="{{museum_details.get('website', '')}}" id="muse-website">
+                        <img class="muse-detail-img img-fluid w-100" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{museum_details.photos[0].photo_reference}}&key={{key}}"
+                            alt="Picture of the museum">
+                    </a>
+                {% else %}
+                    <img class="muse-detail-img img-fluid w-100" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{museum_details.photos[0].photo_reference}}&key={{key}}"
+                    alt="Picture of the museum">
+                {% endif %}
             {% else %}
-                <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{museum_details.photos[0].photo_reference}}&key={{key}}"
-                alt="Picture of the museum">
-            {% endif %}
-        {% else %}
-            <img class="muse-img" src="/static/img/muse.png" alt="">
-        {% endif %}
-
-        <!-- Hidden form that contains current museum infos -->
-        <form id="muse-form" method="POST">
-            <input type="hidden" id="detail-muse-name" name="muse-name" value="{{museum_details.name}}">
-            <input type="hidden" id="detail-muse-website" name="muse-website" value="{{museum_details.get('website', '')}}">
-            <input type="hidden" id="detail-place-id" name="place-id" value="{{museum_details.place_id}}">
-            {% if 'formatted_phone_number' in museum_details %}
-                <input type="hidden" id="detail-muse-phone" name="muse-phone" value="{{ museum_details.formatted_phone_number }}">
-            {% endif %}
-            <!-- Button that allow user to click this current museum -->
-            <button type="submit" id="add-to-like">Add to Like</button>
-        </form>
-        <br>
-        <br>
-        <div>
-            <!-- Shows museum's address-->
-            {{museum_details.formatted_address}}
-        </div>
-        <br>
-        <!-- Show museums's phone-->
-        <div id="muse-phone">
-            {% if 'formatted_phone_number' in museum_details %}
-                {{museum_details.formatted_phone_number}}
-            {% else %}
-                This museum doesn't have a phone number.
+                <img class="muse-detail-img img-fluid w-100" src="/static/img/muse.png" alt="">
             {% endif %}
         </div>
-        <br>
 
-        <!-- Check and show museum's ratings-->
-        {% if 'rating' in museum_details %}
-            <div>
-                Rating:{{museum_details.rating}}  Total number of ratings:{{museum_details.user_ratings_total}}
-            </div>
-        {% else %}
-            <div>
-                This museum doesn't have any ratings yet.
-            </div>
-
-        {% endif %}
-
-        <br>
-
-        <!-- Check and show museum's reviews-->
-        {% if 'review' in museum_details %}
-        <div>
-            Visitor reviews:
-            {% for review in museum_details.reviews %}
-                <div>
-                    Author: {{review.author_name}} Rating: {{review.rating}}
+        <div class="row">
+            <div class="col">
+                <!-- Shows museum's address-->
+                <div class="detail-content">
+                    {{museum_details.formatted_address}}
                 </div>
-                <div>
-                    {{review.text}}
+                <!-- Show museums's phone-->
+                <div class="detail-content" id="muse-phone">
+                    {% if 'formatted_phone_number' in museum_details %}
+                        {{museum_details.formatted_phone_number}}
+                    {% else %}
+                        <div class="alert">
+                            This museum doesn't have a phone number.
+                        </div>
+                    {% endif %}
                 </div>
-                <br>
-            {% else %}
-                This museum doesn't have any reviews yet.
-            {% endfor %}
+                <!-- Check and show museum's ratings-->
+                <div class="detail-content">
+                    {% if 'rating' in museum_details %}
+                        <div>
+                            Rating: {{museum_details.rating}}
+                        </div>
+                        <div>
+                            Total number of ratings: {{museum_details.user_ratings_total}}
+                        </div>
+
+                    {% else %}
+                        <div class="alert">
+                            This museum doesn't have any ratings yet.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col text-end">
+                <!-- Hidden form that contains current museum infos -->
+                <form id="muse-form" method="POST">
+                    <input type="hidden" id="detail-muse-name" name="muse-name" value="{{museum_details.name}}">
+                    <input type="hidden" id="detail-muse-website" name="muse-website" value="{{museum_details.get('website', '')}}">
+                    <input type="hidden" id="detail-place-id" name="place-id" value="{{museum_details.place_id}}">
+                    {% if 'formatted_phone_number' in museum_details %}
+                        <input type="hidden" id="detail-muse-phone" name="muse-phone" value="{{ museum_details.formatted_phone_number }}">
+                    {% endif %}
+                    <!-- Button that allow user to click this current museum -->
+                    <button class="btn btn-outline-danger" type="submit" id="add-to-like"><i class="bi bi-heart"> Add to like</i></button>
+                </form>
+            </div>
         </div>
-        {% endif %}
 
     </div>
-
-    <!-- Load JS that will run when load like button is clicked -->
-    <script src="/static/js/add_muse_to_list.js"></script>
+</div>
+<!-- Load JS that will run when load like button is clicked -->
+<script src="/static/js/add_muse_to_list.js"></script>
 
 {% endblock %}
