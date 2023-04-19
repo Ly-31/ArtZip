@@ -33,7 +33,7 @@ function loadMoreResults() {
         placesData.forEach(place => {
             // create a div for each museum
             const placeElement = document.createElement('div');
-            placeElement.classList.add('col-12', 'col-md-6', 'col-lg-4', 'my-4');
+            placeElement.classList.add('col-12', 'col-md-6', 'col-lg-4', 'my-4', 'text-center');
             let imgUrl;
 
             // check if the museum has photo
@@ -45,7 +45,7 @@ function loadMoreResults() {
 
             // add current museum data to the museum div
             placeElement.innerHTML = `
-                    <img class="muse-img img-fluid my-2" src="${imgUrl}" alt="">
+                    <img class="muse-img img-fluid my-2" src="${imgUrl}" alt="museum image">
                     <div>
                     <a href="/muse-details?place_id=${place.place_id}">${place.name}</a>
                     </div>

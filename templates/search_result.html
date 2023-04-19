@@ -4,43 +4,41 @@
 
 {% block body %}
 
-    <div class="container">
+<!-- Shows the result from search-->
+<div class="row justify-content-evenly" id="results-container">
 
-        <!-- Shows the result from search-->
-        <div class="row d-flex justify-content-around" id="results-container">
+    <!-- Loop over list of museum object -->
+    {% for place in places_data %}
+    <div class="col-12 col-md-6 col-lg-4 my-4 text-center">
 
-            <!-- Loop over list of museum object -->
-            {% for place in places_data %}
-            <div class="col-12 col-md-6 col-lg-4 my-4">
+        <!-- Check if the current museum has photo and make API request to ge the photo-->
+        {% if 'photos' in place %}
+            <img class="muse-img img-fluid my-2" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="museum">
+        {% else %}
+            <img class="muse-img img-fluid my-2" src="/static/img/muse.png" alt="museum">
+        {% endif %}
 
-                <!-- Check if the current museum has photo and make API request to ge the photo-->
-                {% if 'photos' in place %}
-                    <img class="muse-img img-fluid my-2" src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key={{key}}" alt="museum">
-                {% else %}
-                    <img class="muse-img img-fluid my-2" src="/static/img/muse.png" alt="museum">
-                {% endif %}
-
-                <!-- Display museum name, which is also a route to /muse-detail with the place_id as a key to retrieve museum details-->
-                <div>
-                    <a href="/muse-details?place_id={{place.place_id}}"><h5>{{place.name}}</h5></a>
-                </div>
-
-                <!-- Check if the current museum has rating-->
-                {% if 'rating' in place %}
-                <div>Rating: {{place.rating}}</div>
-                {% endif %}
-
-            </div>
-            {% endfor %}
+        <!-- Display museum name, which is also a route to /muse-detail with the place_id as a key to retrieve museum details-->
+        <div class="muse-name">
+            <a href="/muse-details?place_id={{place.place_id}}"><h5>{{place.name}}</h5></a>
         </div>
+
+        <!-- Check if the current museum has rating-->
+        {% if 'rating' in place %}
+        <div>Rating: {{place.rating}}</div>
+        {% endif %}
+
     </div>
-    <!-- Button that loads next batch result -->
-    <div class="d-flex justify-content-center">
-        <button class="btn btn-primary btn-lg my-4" id="load-more-btn" name="token" value="{{token}}">Load More Results</button>
-    </div>
+    {% endfor %}
+</div>
+
+<!-- Button that loads next batch result -->
+<div class="d-flex justify-content-center">
+    <button class="btn btn-primary btn-lg my-4" id="load-more-btn" name="token" value="{{token}}">Load More Results</button>
+</div>
 
 
-    <!-- Load JS that will run when load result button is clicked -->
-    <script src="/static/js/load_more_result.js"></script>
+<!-- Load JS that will run when load result button is clicked -->
+<script src="/static/js/load_more_result.js"></script>
 
 {% endblock %}
