@@ -26,22 +26,21 @@
                         <h3 class="fw-bold mb-5">Create an ArtZip account</h3>
                         <form id="create-account-form" action="/create-account" method="POST">
                             <div class="form-outline mb-4">
-                                <input class="form-control" type="text" name="fname" id="acct-fname" placeholder="First Name">
+                                <input class="form-control" type="text" name="fname" id="acct-fname" placeholder="First Name" required>
                                 <div class="alert" id="invalid-fname" style="display: none;">Please enter a valid first name.</div>
                             </div>
                             <div class="form-outline mb-4">
-                                <input class="form-control"  type="text" name="lname" id="acct-lname" placeholder="Last Name">
+                                <input class="form-control"  type="text" name="lname" id="acct-lname" placeholder="Last Name" required>
                                 <div class="alert" id="invalid-lname" style="display: none;">Please enter a valid last name.</div>
                             </div>
                             <div class="form-outline mb-4">
-                                <input class="form-control"  type="email" name="email" id="acct-email" placeholder="Email" required
-                                        data-missing-error="This field is required.">
+                                <input class="form-control"  type="email" name="email" id="acct-email" placeholder="Email" required>
                             </div>
                             <div class="form-outline mb-4">
-                                <input class="form-control"  type="password" name="password" id="acct-password" placeholder="Password">
+                                <input class="form-control"  type="password" name="password" id="acct-password" placeholder="Password" required>
                                 <div class="alert" id="invalid-password" style="display: none;">Invalid password.</div>
                                 <!-- Password requirements, with show when user clicks on the password input field -->
-                                <div id="password-requirements" style="display: none;">
+                                <div class="text-start mt-2" id="password-requirements" style="display: none;">
                                     <strong>Password must be:</strong>
                                     <ul>
                                         <li>Minimum length of 8 characters.</li>

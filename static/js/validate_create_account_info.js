@@ -90,31 +90,34 @@ inputPassword.addEventListener('click', ()=>{
 // add a event listener on the form that checks validates form infos
 account_form.addEventListener('submit', (evt) =>{
 
-    // check if the first name is valid
-    if (validateFirstName(inputFirstName.value) === false){
-        evt.preventDefault();
+    // // check if the first name is valid
+    // if (validateFirstName(inputFirstName.value) === false){
+    //     evt.preventDefault();
 
-        // select the div that shows fname not met msg
-        var div = document.querySelector('#invalid-fname');
+    //     // select the div that shows fname not met msg
+    //     var div = document.querySelector('#invalid-fname');
 
-        // show the msg if first name is invalid
-        if(div.style.display == 'none'){
-            div.style.display = 'block';
-        }
-    }
+    //     // show the msg if first name is invalid
+    //     if(div.style.display == 'none'){
+    //         div.style.display = 'block';
+    //     }
+    //     div.style.display == 'none';
+    // }
 
-    // check if the last name is valid
-    if (validateLirstName(inputLastName.value) === false){
-        evt.preventDefault();
+    // // check if the last name is valid
+    // if (validateLirstName(inputLastName.value) === false){
+    //     evt.preventDefault();
 
-        // select the div that shows lname not met msg
-        var div = document.querySelector('#invalid-lname');
+    //     // select the div that shows lname not met msg
+    //     var div = document.querySelector('#invalid-lname');
 
-        // show the msg if last name is invalid
-        if(div.style.display == 'none'){
-            div.style.display = 'block';
-        }
-    }
+    //     // show the msg if last name is invalid
+    //     if(div.style.display == 'none'){
+    //         div.style.display = 'block';
+    //     }else{
+    //         div.style.display == 'none';
+    //     }
+    // }
 
     // check if the input password met the password requirement
     // prevent the form subission if the input password doesn't meet the requirement

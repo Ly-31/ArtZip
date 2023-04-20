@@ -27,6 +27,11 @@
                     <h5 class="fw-bold">Liked museums:</h5>
                 </div>
                 <div class="card-body">
+                    {% if museums|length == 0 %}
+                        <div>
+                            You haven't liked any museum.
+                        </div>
+                    {% endif %}
                     <ul>
                         {% for museum in museums %}
                             <li class="my-2">
