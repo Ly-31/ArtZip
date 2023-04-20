@@ -10,7 +10,7 @@
             <!-- Check if the museum has a website -->
             {% if museum_details.get('website', '') != '' %}
                 <h2 class="muse-name">
-                    <a href="{{museum_details.get('website', '')}}" id="muse-name"><strong>{{museum_details.name}}</strong></a>
+                    <a href="{{museum_details.get('website', '')}}" id="muse-name" class="fw-bold">{{museum_details.name}}</a>
                 </h2>
             {% else %}
                 <h2 class="muse-name">
@@ -36,7 +36,7 @@
             {% endif %}
         </div>
 
-        <div class="row">
+        <div class="row my-5">
             <div class="col">
                 <!-- Shows museum's address-->
                 <div class="detail-content">
@@ -84,9 +84,20 @@
             </div>
         </div>
 
+        <div id="lat" style="display: none;">{{museum_details['geometry']['location']['lat']}}</div>
+        <div id="lng" style="display: none;">{{museum_details['geometry']['location']['lng']}}</div>
+        <div id="map" class="my-5" style="height: 800px; width:1000px; margin: 0 auto;">
+
+        </div>
     </div>
 </div>
+
 <!-- Load JS that will run when load like button is clicked -->
 <script src="/static/js/add_muse_to_list.js"></script>
+<script src="/static/js/muse_map.js"></script>
+<script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8&callback=initMap">
+</script>
 
 {% endblock %}

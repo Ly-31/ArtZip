@@ -148,7 +148,7 @@ def result():
 
     # get the zipcode user searched from the search bar
     zipcode = request.args.get("search-bar-zipcode")
-    print(f'*****{zipcode}')
+    # print(f'*****{zipcode}')
 
     # check if user entered a zipcode
     if zipcode == "":
@@ -184,7 +184,7 @@ def result():
 
         # convert the place response to json object
         places_data = places_response.json()
-        print(places_data['results'],)
+        # print(places_data['results'],)
 
         # check if there is next-page(more results) that we can request
         if 'next_page_token' in places_data:
@@ -223,6 +223,8 @@ def show_muse_details():
     # get_muse_details() takes the place_id as input
     # and make a place API request to retrieve json object of the place
     museum_details = crud.get_muse_details(place_id)
+    print(museum_details['geometry']['location']['lat'])
+    print(museum_details['geometry']['location']['lng'])
 
     return render_template('muse_details.html', museum_details=museum_details, key=googlemap_key)
 
@@ -243,7 +245,7 @@ def add_muse_to_list():
         place_id = request.json.get("placeID")
         website = request.json.get("website")
         phone = request.json.get("phone")
-        print(f'*****{phone}')
+        # print(f'*****{phone}')
 
         # get a list of museums' name
         muse_list = crud.get_all_muse_name()
