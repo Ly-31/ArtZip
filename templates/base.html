@@ -20,7 +20,6 @@
     {% block head %}{% endblock %}
   </head>
 
-  <body>
     <!-- Navigation bar that has search box, link to login, logout, and link to user's homepage -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-light bg-light">
       <div class="container-fluid">
@@ -42,15 +41,13 @@
       </div>
   </nav>
 
-    {% for msg in get_flashed_messages() %}
-      <p class="flash-msg">
-        {{ msg }}
-      </p>
-    {% endfor %}
+  {% for msg in get_flashed_messages() %}
+    <p class="flash-msg">
+      {{ msg }}
+    </p>
+  {% endfor %}
 
-    {% block body %}{% endblock %}
+  {% block body %}{% endblock %}
 
-    {% block footer %}{% endblock %}
-
-    <script src="/static/js/check_user_in_session.js"></script>
+  <script src="/static/js/check_user_in_session.js"></script>
 </html>
