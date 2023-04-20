@@ -12,12 +12,35 @@
                 <div class="card-header fw-bold">
                     <h5 class="fw-bold">Account Information</h5>
                 </div>
-                <div class="card-body">
-                    <div><strong>First Name:</strong> {{user.fname}}</div>
-                    <div><strong>Last Name:</strong> {{user.lname}}</div>
-                    <div><strong>Email:</strong> {{user.email}}</div>
-                    <div><strong>Phone Number: </strong>{{user.phone}}</div>
-                    <div><strong>Password:</strong> {{user.password}}</div>
+                <div class="card-body fw-bold my-2">
+                    <div class="my-2">First Name: {{user.fname}}</div>
+                    <div class="my-2"> Last Name: {{user.lname}}</div>
+                    <div class="my-2">Email: {{user.email}}</div>
+                    <div class="my-2">Phone Number: {{user.phone}}</div>
+                    <div class="row align-items-center my-2">
+                        <div class="col-4">Password: {{user.password}}</div>
+                        <button class="col-3 btn btn-secondary btn-sm" style="display: block;">Change password</button>
+                        <form id="change-pwd" class="my-5" method="POST">
+                            <div class="row my-2">
+                                <label class="col-4" for="">New password: </label>
+                                <input id="newPwd-1" class="col-3" type="password">
+                            </div>
+                            <div class="row my-2">
+                                <label class="col-4" for="">Confirm new password: </label>
+                                <input id="newPwd-2" class="col-3" type="password">
+                            </div>
+                            <div class="text-start mt-2 alert" id="password-requirements">
+                                <strong>Password must be:</strong>
+                                <ul>
+                                    <li>Minimum length of 8 characters.</li>
+                                    <li>Has one uppercase character.</li>
+                                    <li>Contains one special character: &, %, $, #, !.</li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-primary btn-sm col-3" type="submit">Update password</button>
+                        </form>
+
+                    </div>
                 </div>
             </div>
 
@@ -44,5 +67,6 @@
         </div>
     </div>
 </section>
-
+<script src="/static/js/update_password.js"></script>
+<script src="/static/js/validate_create_account_info.js"></script>
 {% endblock %}

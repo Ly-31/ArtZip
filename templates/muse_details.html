@@ -79,7 +79,7 @@
                         <input type="hidden" id="detail-muse-phone" name="muse-phone" value="{{ museum_details.formatted_phone_number }}">
                     {% endif %}
                     <!-- Button that allow user to click this current museum -->
-                    <button class="btn btn-outline-danger" type="submit" id="add-to-like"><i class="bi bi-heart"> Add to like</i></button>
+                    <button class="btn btn-danger" type="submit" id="add-to-like"><i class="bi bi-heart"> Add to like</i></button>
                 </form>
             </div>
         </div>
@@ -94,6 +94,7 @@
 
 <!-- Load JS that will run when load like button is clicked -->
 <script src="/static/js/add_muse_to_list.js"></script>
+<!-- Load google map with curent musesum as center -->
 <script src="/static/js/muse_map.js"></script>
 <script
     async

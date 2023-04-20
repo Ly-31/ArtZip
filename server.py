@@ -272,6 +272,20 @@ def add_muse_to_list():
                 "status": f"{name} has been added to your liked list."
         }
 
+@app.route('/update-password', methods=['POST'])
+def update_user_password():
+    pwd = request.json.get('newPwd')
+
+    logged_user = session.get("user_id")
+    user = crud.get_user_by_id(logged_user)
+    user.password = pwd
+    db.session.commit()
+
+    return{ "success": True,
+            "status": f'Your password has been updated.'
+    }
+
+
 
 if __name__ == "__main__":
     connect_to_db(app)
