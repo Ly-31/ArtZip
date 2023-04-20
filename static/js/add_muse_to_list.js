@@ -3,6 +3,16 @@
 // select the hidden museum form
 const form = document.getElementById('muse-form');
 
+    let museName = document.querySelector('#detail-muse-name').value;
+    let museWebsite =  document.querySelector('#detail-muse-website').value;
+    let musePlaceID =  document.querySelector('#detail-place-id').value;
+    let musePhone = document.querySelector('#detail-muse-phone');
+    let phoneNum = null;
+
+    if (musePhone != null){
+        phoneNum = musePhone.value;
+    }
+
 // add event listener to the form submission(like button click)
 form.addEventListener('submit', evt => {
     // prevent the form from submitting
@@ -10,10 +20,11 @@ form.addEventListener('submit', evt => {
 
     // gets current museum info the form input values
     const formInputs = {
-        name: document.querySelector('#detail-muse-name').value,
-        website: document.querySelector('#detail-muse-website').value,
-        placeID: document.querySelector('#detail-place-id').value,
-        phone: document.querySelector('#detail-muse-phone').value
+        name: museName,
+        website: museWebsite,
+        placeID: musePlaceID,
+        phone: phoneNum
+
     }
 
      // ajax request to check if there is user in session
@@ -52,4 +63,3 @@ form.addEventListener('submit', evt => {
     .catch(error => console.error(error));
 
 });
-

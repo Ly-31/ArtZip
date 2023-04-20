@@ -243,6 +243,7 @@ def add_muse_to_list():
         place_id = request.json.get("placeID")
         website = request.json.get("website")
         phone = request.json.get("phone")
+        print(f'*****{phone}')
 
         # get a list of museums' name
         muse_list = crud.get_all_muse_name()
