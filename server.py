@@ -200,7 +200,8 @@ def result():
         places_data = places_response.json()
         # print(places_data['results'],)
 
-        # check if there is next-page(more results) that we can request
+        token = None
+        # check if there is next-page(more results) that can be requested
         if 'next_page_token' in places_data:
             token = places_data['next_page_token']
 
@@ -252,7 +253,7 @@ def check_like():
     # get museum name from the fetch post
     muse_name = request.json.get("name")
 
-    # check if user has already liked this museum 
+    # check if user has already liked this museum
     if (crud.check_like(logged_user, muse_name) == True):
         return {"liked": True}
     else:
