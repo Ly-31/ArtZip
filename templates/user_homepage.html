@@ -19,8 +19,8 @@
                     <div class="my-2">Phone Number: {{user.phone}}</div>
                     <div class="row align-items-center my-2">
                         <div class="col-4">Password: {{user.password}}</div>
-                        <button class="col-3 btn btn-secondary btn-sm" style="display: block;">Change password</button>
-                        <form id="change-pwd" class="my-5" method="POST">
+                        <button id="change-pwd-btn" class="col-3 btn btn-secondary btn-sm" style="display: block;">Change password</button>
+                        <form id="change-pwd" class="my-5" method="POST" style="display: none;">
                             <div class="row my-2">
                                 <label class="col-4" for="">New password: </label>
                                 <input id="newPwd-1" class="col-3" type="password">

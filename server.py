@@ -274,9 +274,14 @@ def add_muse_to_list():
 
 @app.route('/update-password', methods=['POST'])
 def update_user_password():
+
+    # get the new password from fetch post
     pwd = request.json.get('newPwd')
 
+    # get current user's id
     logged_user = session.get("user_id")
+
+    # get user & update the password to new password
     user = crud.get_user_by_id(logged_user)
     user.password = pwd
     db.session.commit()
@@ -284,6 +289,7 @@ def update_user_password():
     return{ "success": True,
             "status": f'Your password has been updated.'
     }
+
 
 
 
