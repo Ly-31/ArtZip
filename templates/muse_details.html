@@ -13,9 +13,7 @@
                     <a href="{{museum_details.get('website', '')}}" id="muse-name" class="fw-bold">{{museum_details.name}}</a>
                 </h2>
             {% else %}
-                <h2 class="muse-name">
-                    <strong>{{museum_details.name}}</strong>
-                </h2>
+                <h2 class="muse-name fw-bold">{{museum_details.name}}</h2>
             {% endif %}
         </div>
 
@@ -92,6 +90,7 @@
     </div>
 </div>
 
+<script src="/static/js/check_like.js"></script>
 <!-- Load JS that will run when load like button is clicked -->
 <script src="/static/js/add_muse_to_list.js"></script>
 <!-- Load google map with curent musesum as center -->

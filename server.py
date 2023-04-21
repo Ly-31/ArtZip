@@ -134,6 +134,8 @@ def user_homepage():
     user = crud.get_user_by_id(logged_user)
     museums = crud.get_muses_by_id(logged_user)
 
+    print(museums)
+
     return render_template('user_homepage.html', user=user, museums=museums)
 
 @app.route('/show-pwd', methods=['POST'])
@@ -239,6 +241,22 @@ def show_muse_details():
     print(museum_details['geometry']['location']['lng'])
 
     return render_template('muse_details.html', museum_details=museum_details, key=googlemap_key)
+
+@app.route('/check-like', methods=['POST'])
+def check_like():
+    """Check if user has liked this museum"""
+
+    # get current user from the session
+    logged_user = session.get("user_id")
+
+    # get museum name from the fetch post
+    muse_name = request.json.get("name")
+
+    # check if user has already liked this museum 
+    if (crud.check_like(logged_user, muse_name) == True):
+        return {"liked": True}
+    else:
+        return {"liked": False}
 
 
 @app.route('/add-to-list', methods=['POST'])

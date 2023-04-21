@@ -140,6 +140,14 @@ def set_user_muse(user_id, muse_id):
 
     return user_muse
 
+def check_like(user_id, muse_name):
+    museums = get_muses_by_id(user_id)
+    muse_id = get_muse_id_by_name(muse_name)
+
+    for museum in museums:
+        if museum.id == muse_id:
+            return True
+
 
 if __name__ == '__main__':
     from server import app

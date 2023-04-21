@@ -60,7 +60,7 @@ form.addEventListener('submit', evt => {
     .then((responseJson) =>{
         alert(responseJson.status);
         const btn = document.getElementById('add-to-like');
-        btn.setAttribute('disabled','disabled');
+        btn.setAttribute('disabled', 'disabled');
 
     })
     .catch(error => console.error(error));
