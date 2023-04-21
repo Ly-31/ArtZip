@@ -122,7 +122,7 @@ def verify_account():
         return redirect('/login')
 
 
-@app.route('/user-home')
+@app.route('/user-home', methods=['GET', 'POST'])
 def user_homepage():
     """Show user homepage"""
 
@@ -135,6 +135,18 @@ def user_homepage():
     museums = crud.get_muses_by_id(logged_user)
 
     return render_template('user_homepage.html', user=user, museums=museums)
+
+@app.route('/show-pwd', methods=['POST'])
+def user_password():
+    """return user password"""
+    # get the user id from session
+    logged_user = session.get("user_id")
+
+    # retrieve user object by id using get_user_by_id function
+    user = crud.get_user_by_id(logged_user)
+    user_pwd = user.password
+
+    return {'pwd': user_pwd}
 
 
 @app.route('/search-result')

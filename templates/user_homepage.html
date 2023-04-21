@@ -18,7 +18,10 @@
                     <div class="my-2">Email: {{user.email}}</div>
                     <div class="my-2">Phone Number: {{user.phone}}</div>
                     <div class="row align-items-center my-2">
-                        <div class="col-4">Password: {{user.password}}</div>
+                        <div class="col-2">Password:</div>
+                        <!-- <div class="col" id="current-pwd"> {{user.password}}</div> -->
+                        <div class="col" id="current-pwd"> **********</div>
+                        <button id="show-pwd" class="col-3 mx-2 btn btn-secondary btn-sm">Show password</button>
                         <button id="change-pwd-btn" class="col-3 btn btn-secondary btn-sm" style="display: block;">Change password</button>
                         <form id="change-pwd" class="my-5" method="POST" style="display: none;">
                             <div class="row my-2">
@@ -67,6 +70,7 @@
         </div>
     </div>
 </section>
+<script src="/static/js/show-pwd.js"></script>
 <script src="/static/js/update_password.js"></script>
 <script src="/static/js/validate_create_account_info.js"></script>
 {% endblock %}

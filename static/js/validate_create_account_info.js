@@ -81,11 +81,17 @@ function validateZipcode(zipcode){
 
 // add a event listener on the password input field
 // the password requirements div will show when user click on the password input field
-inputPassword.addEventListener('click', ()=>{
-    var div = document.querySelector('#password-requirements');
+if (inputPassword !== null){
+    inputPassword.addEventListener('click', ()=>{
+        var div = document.querySelector('#password-requirements');
 
-    div.style.display = 'block';
-})
+        div.style.display = 'block';
+    })
+
+
+}
+
+if (account_form !== null){
 
 // add a event listener on the form that checks validates form infos
 account_form.addEventListener('submit', (evt) =>{
@@ -147,3 +153,4 @@ account_form.addEventListener('submit', (evt) =>{
         }
     }
 });
+}
