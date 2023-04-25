@@ -63,6 +63,27 @@ def connect_to_db(flask_app, db_uri="postgresql:///artzip", echo=True):
 
     print("Connected to the db!")
 
+def example_data():
+    t1 = User(fname="t110", lname="t11", email="t110@gmail.com", password="T110")
+    t2 = User(fname="t120", lname="t22", email="t120@gmail.com", password="T120", phone=9173652000)
+    t3 = User(fname="t130", lname="t33", email="t130@gmail.com", password="T130", zipcode=89178)
+    m1 = Museum(name='m10', phone=9182727899, website="m1.com", googlemap_id="m1")
+    m2 = Museum(name='m20', website="m2.com", googlemap_id="m2")
+    m3 = Museum(name='m30', phone=6460007899, website="m3.com", googlemap_id="m3")
+
+    db.session.add_all([t1, t2, t3, m1, m2, m3])
+
+    db.session.commit()
+
+    um1=User_muse(user_id=t1.id, museum_id=m1.id)
+    um2=User_muse(user_id=t1.id, museum_id=m2.id)
+    um3=User_muse(user_id=t3.id, museum_id=m3.id)
+    um4=User_muse(user_id=t2.id, museum_id=m3.id)
+
+    db.session.add_all([um1, um2, um3, um4])
+    db.session.commit()
+
+
 
 if __name__ == "__main__":
     from server import app
@@ -75,20 +96,3 @@ if __name__ == "__main__":
     #Testing
 
     db.create_all()
-    t1 = User(fname="t1", lname="t11", email="t1@gmail.com", password="dsda")
-    t2 = User(fname="t2", lname="t22", email="t2@gmail.com", password="dsdajj", phone=9173652000)
-    t3 = User(fname="t3", lname="t33", email="t3@gmail.com", password="dsddda", zipcode=89178)
-    m1 = Museum(name='m1', phone=9182727899, website="m1.com", googlemap_id="m1")
-    m2 = Museum(name='m2', website="m2.com", googlemap_id="m2")
-    m3 = Museum(name='m3', phone=6460007899, website="m3.com", googlemap_id="m3")
-
-    db.session.add_all([t1, t2, t3, m1, m2, m3])
-    db.session.commit()
-
-    um1=User_muse(user_id=t1.id, museum_id=m1.id)
-    um2=User_muse(user_id=t1.id, museum_id=m2.id)
-    um3=User_muse(user_id=t3.id, museum_id=m3.id)
-    um4=User_muse(user_id=t2.id, museum_id=m3.id)
-
-    db.session.add_all([um1, um2, um3, um4])
-    db.session.commit()
