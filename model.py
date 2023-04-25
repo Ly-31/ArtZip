@@ -63,16 +63,41 @@ def connect_to_db(flask_app, db_uri="postgresql:///artzip", echo=True):
 
     print("Connected to the db!")
 
-def example_data():
-    t1 = User(fname="t110", lname="t11", email="t110@gmail.com", password="T110")
-    t2 = User(fname="t120", lname="t22", email="t120@gmail.com", password="T120", phone=9173652000)
-    t3 = User(fname="t130", lname="t33", email="t130@gmail.com", password="T130", zipcode=89178)
-    m1 = Museum(name='m10', phone=9182727899, website="m1.com", googlemap_id="m1")
-    m2 = Museum(name='m20', website="m2.com", googlemap_id="m2")
-    m3 = Museum(name='m30', phone=6460007899, website="m3.com", googlemap_id="m3")
+
+def testing_data():
+    test1 = User(fname="11", lname="11", email="11@gmail.com", password="11dsda")
+    test2 = User(fname="12", lname="22", email="12@gmail.com", password="12dsdajj", phone=9173652000)
+    mm1 = Museum(name='m11', phone=9182727899, website="m11.com", googlemap_id="m11")
+    mm2 = Museum(name='m12', website="m12.com", googlemap_id="m12")
+
+
+    db.session.add_all([test1, test2, mm1, mm2])
+    db.session.commit()
+
+    um1=User_muse(user_id=test1.id, museum_id=mm1.id)
+    um2=User_muse(user_id=test1.id, museum_id=mm2.id)
+    um4=User_muse(user_id=test2.id, museum_id=mm2.id)
+
+    db.session.add_all([um1, um2, um4])
+    db.session.commit()
+
+
+if __name__ == "__main__":
+    from server import app
+
+    connect_to_db(app)
+
+    db.create_all()
+
+    #Sample data
+    t1 = User(fname="t1", lname="t11", email="t1@gmail.com", password="dsda")
+    t2 = User(fname="t2", lname="t22", email="t2@gmail.com", password="dsdajj", phone=9173652000)
+    t3 = User(fname="t3", lname="t33", email="t3@gmail.com", password="dsddda", zipcode=89178)
+    m1 = Museum(name='m1', phone=9182727899, website="m1.com", googlemap_id="m1")
+    m2 = Museum(name='m2', website="m2.com", googlemap_id="m2")
+    m3 = Museum(name='m3', phone=6460007899, website="m3.com", googlemap_id="m3")
 
     db.session.add_all([t1, t2, t3, m1, m2, m3])
-
     db.session.commit()
 
     um1=User_muse(user_id=t1.id, museum_id=m1.id)
@@ -82,17 +107,3 @@ def example_data():
 
     db.session.add_all([um1, um2, um3, um4])
     db.session.commit()
-
-
-
-if __name__ == "__main__":
-    from server import app
-
-    connect_to_db(app)
-
-    # db.session.add()
-    # db.session.commit()
-
-    #Testing
-
-    db.create_all()

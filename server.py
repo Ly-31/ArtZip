@@ -13,8 +13,8 @@ app = Flask(__name__)
 app.secret_key = "art"
 app.jinja_env.undefined = StrictUndefined
 
-
 googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8'
+
 
 @app.route('/')
 def hompage():
@@ -100,6 +100,7 @@ def verify_account():
     lname = request.form.get("lname")
     email = request.form.get("email")
     password = request.form.get("password")
+    password = password.rstrip()
     phone = request.form.get("phone")
     zipcode = request.form.get("zipcode")
 
