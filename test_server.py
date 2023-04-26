@@ -159,18 +159,9 @@ class FlaskTestsDatabase(TestCase):
         self.assertTrue(liked)
 
 
-
-
-
-
-
     # def test_search_result(self):
     #     result = self.client.get('/serach-result')
     #     self.assertIn(b'results-container', result.data)
-
-
-
-
 
 
 
