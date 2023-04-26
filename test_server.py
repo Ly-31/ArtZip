@@ -2,6 +2,7 @@ from server import app
 from unittest import TestCase
 from model import connect_to_db, db, testing_data
 from flask import session
+from model import User
 
 class FlaskTestsBasics(TestCase):
 
@@ -42,7 +43,7 @@ class FlaskTestsBasics(TestCase):
             self.assertNotIn(b'user_id', session)
             self.assertIn(b"You've logged out.", result.data)
 
-class FlaskTestssDatabase(TestCase):
+class FlaskTestsDatabase(TestCase):
 
     def setUp(self):
 
@@ -64,12 +65,62 @@ class FlaskTestssDatabase(TestCase):
         db.engine.dispose()
 
     def test_login_feature(self):
-        """Test login page"""
+        """Test login page with valid email and password"""
 
         result = self.client.post("/login",
                                     data={"login-form-email": "11@gmail.com","login-form-password": "11dsda"},
-                                        follow_redirects=True)
+                                    follow_redirects=True)
         self.assertIn(b'Account Information', result.data)
+
+    def test_login_feature_2(self):
+        """Test login page with valid email and incorrect password"""
+
+        result = self.client.post("/login",
+                                    data={"login-form-email": "11@gmail.com","login-form-password": "dsda"},
+                                    follow_redirects=True)
+        self.assertIn(b'Sign into your account', result.data)
+
+    def test_login_feature_3(self):
+        """Test login page with invalid email"""
+
+        result = self.client.post("/login",
+                                    data={"login-form-email": "nonexist@gmail.com","login-form-password": "none"},
+                                    follow_redirects=True)
+        self.assertIn(b'Create an ArtZip account', result.data)
+
+    def test_create_account_feature(self):
+        """Test create account with valid inputs for all field"""
+
+        result = self.client.post("/create-account",
+                                    data={"fname": "test1", "lname": "test1", "email": "test1@gmail.com",
+                                            "password": "Test1!test", "phone": "917-000-0000", "zipcode": "10001"},
+                                            follow_redirects=True)
+        self.assertIn(b'Account created successfully', result.data)
+        self.assertIn(b'Sign into your account', result.data)
+
+        # check that the user is created in the database
+        users = User.query.all()
+        self.assertEqual(len(users), 3)
+
+    def test_create_account_feature_2(self):
+        """Test create account with an existing email in the db"""
+
+        result = self.client.post("/create-account",
+                                    data={"fname": "t1", "lname": "t1", "email": "11@gmail.com",
+                                            "password": "Test1!test", "phone": "917-000-0000", "zipcode": "10001"},
+                                            follow_redirects=True)
+        self.assertIn(b'There is an account associate with this email, please log in', result.get_data())
+        self.assertIn(b'Sign into your account', result.data)
+
+        # check that the user was not created in the database
+        users = User.query.all()
+        self.assertEqual(len(users), 2)
+
+    # def test_add_muse_to_like(self):
+    #     """Test add museum to user's liked list"""
+
+    #     result = self.client.post("/add-to-list",
+    #                                 data={})
 
 
     # def test_userhome(self):

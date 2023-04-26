@@ -110,7 +110,7 @@ def verify_account():
 
     # if user exist in the db, flask error msg and redirect to login page
     if user:
-        flash("There is account associate with this email, please log in")
+        flash("There is an account associate with this email, please log in")
         return redirect('/login')
     # if user doesn't exit in the db
     # use the create_user function to create a new user with the form infos
