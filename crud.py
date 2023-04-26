@@ -122,7 +122,7 @@ def get_user_by_id(user_id):
     return user
 
 
-def get_muses_by_id(user_id):
+def get_user_muses_by_user_id(user_id):
     """return a list of the museum object user liked"""
 
     # get the user object using user_id
@@ -141,7 +141,7 @@ def set_user_muse(user_id, muse_id):
     return user_muse
 
 def check_like(user_id, muse_name):
-    museums = get_muses_by_id(user_id)
+    museums = get_user_muses_by_user_id(user_id)
     muse_id = get_muse_id_by_name(muse_name)
 
     for museum in museums:

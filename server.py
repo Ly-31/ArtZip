@@ -133,7 +133,7 @@ def user_homepage():
     # retrieve user object by id using get_user_by_id function
     # get a list of museums object user liked use user id
     user = crud.get_user_by_id(logged_user)
-    museums = crud.get_muses_by_id(logged_user)
+    museums = crud.get_user_muses_by_user_id(logged_user)
 
     print(museums)
 

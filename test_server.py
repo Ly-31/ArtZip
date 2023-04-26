@@ -2,7 +2,9 @@ from server import app
 from unittest import TestCase
 from model import connect_to_db, db, testing_data
 from flask import session
-from model import User
+from model import User, Museum, User_muse
+import crud
+
 
 class FlaskTestsBasics(TestCase):
 
@@ -15,24 +17,28 @@ class FlaskTestsBasics(TestCase):
         app.config['TESTING'] = True
 
     def test_index(self):
+        """Test homepage route"""
 
         result = self.client.get('/')
         self.assertEqual(result.status_code, 200)
         self.assertIn(b'Explore Local Art Scene', result.data)
 
     def test_login(self):
+        """Test login page route"""
 
         result = self.client.get('/login')
         self.assertEqual(result.status_code, 200)
         self.assertIn(b'Sign into your account', result.data)
 
     def test_creat_account(self):
+        """Test create account page route"""
 
         result = self.client.get('/create-account')
         self.assertEqual(result.status_code, 200)
         self.assertIn(b'Create an ArtZip account', result.data)
 
     def test_logout(self):
+        """Test logout"""
 
         with self.client as c:
             with c.session_transaction() as sess:
@@ -116,20 +122,51 @@ class FlaskTestsDatabase(TestCase):
         users = User.query.all()
         self.assertEqual(len(users), 2)
 
-    # def test_add_muse_to_like(self):
-    #     """Test add museum to user's liked list"""
+    def test_userhome(self):
+        """Test userhome"""
 
-    #     result = self.client.post("/add-to-list",
-    #                                 data={})
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = '1'
+
+        result = self.client.get('/user-home')
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b'Account Information', result.data)
+        self.assertIn(b'11@gmail.com', result.data)
+
+    def test_add_muse_to_like(self):
+        """Test add museum to user's liked list(db)"""
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = '1'
+
+        result = self.client.post("/add-to-list",
+                                    json={
+                                        "name": "test_muse",
+                                        "placeID": "test_placeID",
+                                        "website": "www.test.com",
+                                        "phone": "917-000-0000"})
+
+        self.assertEqual(result.status_code, 200)
+
+        # check if this museum is added to the museum table
+        museums = crud.get_all_muse_name()
+        self.assertTrue("test_muse" in museums)
+
+        # check if this museum is added to the user-muse list
+        liked = crud.check_like("1", "test_muse")
+        self.assertTrue(liked)
 
 
-    # def test_userhome(self):
-    #     result = self.client.get('/user-home')
-    #     self.assertIn(b'Account Information', result.data)
+
+
+
+
 
     # def test_search_result(self):
     #     result = self.client.get('/serach-result')
-    #     self.assertIn(b'', result.data)
+    #     self.assertIn(b'results-container', result.data)
 
 
 
