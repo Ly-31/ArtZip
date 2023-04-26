@@ -37,6 +37,13 @@ class FlaskTestsBasics(TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertIn(b'Create an ArtZip account', result.data)
 
+    def test_search_result(self):
+        """Test search result route"""
+
+        result = self.client.get('/search-result?search-bar-zipcode={11223}')
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b'Bayonne Museum', result.data)
+
     def test_logout(self):
         """Test logout"""
 
@@ -46,6 +53,7 @@ class FlaskTestsBasics(TestCase):
 
             result = self.client.get('/logout', follow_redirects=True)
 
+            self.assertEqual(result.status_code, 200)
             self.assertNotIn(b'user_id', session)
             self.assertIn(b"You've logged out.", result.data)
 
@@ -76,6 +84,7 @@ class FlaskTestsDatabase(TestCase):
         result = self.client.post("/login",
                                     data={"login-form-email": "11@gmail.com","login-form-password": "11dsda"},
                                     follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
         self.assertIn(b'Account Information', result.data)
 
     def test_login_feature_2(self):
@@ -84,6 +93,7 @@ class FlaskTestsDatabase(TestCase):
         result = self.client.post("/login",
                                     data={"login-form-email": "11@gmail.com","login-form-password": "dsda"},
                                     follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
         self.assertIn(b'Sign into your account', result.data)
 
     def test_login_feature_3(self):
@@ -92,6 +102,7 @@ class FlaskTestsDatabase(TestCase):
         result = self.client.post("/login",
                                     data={"login-form-email": "nonexist@gmail.com","login-form-password": "none"},
                                     follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
         self.assertIn(b'Create an ArtZip account', result.data)
 
     def test_create_account_feature(self):
@@ -101,6 +112,7 @@ class FlaskTestsDatabase(TestCase):
                                     data={"fname": "test1", "lname": "test1", "email": "test1@gmail.com",
                                             "password": "Test1!test", "phone": "917-000-0000", "zipcode": "10001"},
                                             follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
         self.assertIn(b'Account created successfully', result.data)
         self.assertIn(b'Sign into your account', result.data)
 
@@ -115,6 +127,7 @@ class FlaskTestsDatabase(TestCase):
                                     data={"fname": "t1", "lname": "t1", "email": "11@gmail.com",
                                             "password": "Test1!test", "phone": "917-000-0000", "zipcode": "10001"},
                                             follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
         self.assertIn(b'There is an account associate with this email, please log in', result.get_data())
         self.assertIn(b'Sign into your account', result.data)
 
@@ -158,10 +171,6 @@ class FlaskTestsDatabase(TestCase):
         liked = crud.check_like("1", "test_muse")
         self.assertTrue(liked)
 
-
-    # def test_search_result(self):
-    #     result = self.client.get('/serach-result')
-    #     self.assertIn(b'results-container', result.data)
 
 
 
