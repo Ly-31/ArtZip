@@ -9,8 +9,11 @@ btn.addEventListener('click', ()=>{
 
 // get update password form
 const form = document.getElementById('change-pwd');
+const form_submit_btn = document.getElementById('submit-pwd-change');
 
-form.addEventListener('submit',(evt)=>{
+form_submit_btn.addEventListener('click',(evt)=>{
+
+    evt.preventDefault()
 
     // get user inputted passwords
     const pw1 = document.getElementById('newPwd-1').value;
@@ -34,10 +37,12 @@ form.addEventListener('submit',(evt)=>{
         })
         .then((response) => response.json())
         .then((responseJson) => {
+            console.log(responseJson.status)
             alert(responseJson.status);
-            // const newPwd = document.getElementById('current-pwd');
-            // newPwd.innerText = pw1;
+
             form.style.display = 'none';
+            document.getElementById('newPwd-1').value = '';
+            document.getElementById('newPwd-2').value = '';
         })
         .catch(error => console.error(error));
     }

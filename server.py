@@ -319,16 +319,23 @@ def update_user_password():
     # get the new password from fetch post
     pwd = request.json.get('newPwd')
 
+    # hash pwd
+    byte_pwd = pwd.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_pwd = bcrypt.hashpw(byte_pwd, salt)
+    decode_hashed_pwd = hashed_pwd.decode('utf-8')
+
     # get current user's id
     logged_user = session.get("user_id")
 
     # get user & update the password to new password
     user = crud.get_user_by_id(logged_user)
-    user.password = pwd
+    user.password = decode_hashed_pwd
+    print(user.password)
     db.session.commit()
 
     return{ "success": True,
-            "status": f'Your password has been updated.'
+            "status": 'Your password has been updated.'
     }
 
 
