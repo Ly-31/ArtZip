@@ -21,16 +21,18 @@
                         <div class="col-2">Password:</div>
                         <!-- <div class="col" id="current-pwd"> {{user.password}}</div> -->
                         <div class="col" id="current-pwd"> **********</div>
-                        <button id="show-pwd" class="col-3 mx-2 btn btn-secondary btn-sm">Show password</button>
+                        <!-- <button id="show-pwd" class="col-3 mx-2 btn btn-secondary btn-sm" style="display: none;">Show password</button> -->
                         <button id="change-pwd-btn" class="col-3 btn btn-secondary btn-sm" style="display: block;">Change password</button>
                         <form id="change-pwd" class="my-5" method="POST" style="display: none;">
                             <div class="row my-2">
                                 <label class="col-4" for="">New password: </label>
-                                <input id="newPwd-1" class="col-3" type="password">
+                                <input id="newPwd-1" class="col-3 mx-2" type="password">
+                                <button id="show-input-pwd1" class="col-3 btn-sm">Show password</button>
                             </div>
                             <div class="row my-2">
                                 <label class="col-4" for="">Confirm new password: </label>
-                                <input id="newPwd-2" class="col-3" type="password">
+                                <input id="newPwd-2" class="col-3 mx-2" type="password">
+                                <button id="show-input-pwd2" class="col-3 btn-sm">Show password</button>
                             </div>
                             <div class="text-start mt-2 alert" id="password-requirements">
                                 <strong>Password must be:</strong>

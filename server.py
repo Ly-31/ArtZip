@@ -6,7 +6,7 @@ from jinja2 import StrictUndefined
 import os
 import json
 import requests
-from time import sleep
+import bcrypt
 
 
 app = Flask(__name__)
@@ -59,19 +59,22 @@ def verify_login():
     email = request.form.get("login-form-email")
     password = request.form.get("login-form-password")
 
+    # convert input pwd to byte code
+    input_pwd = password.encode('utf-8')
+
     # get user from db using the inputted email using the get_user_by_email function
     # get_user_by_email function returns the user object
     db_user = crud.get_user_by_email(email)
 
     # check if user exist in the db
     if db_user:
-        # retrieve user's password
+        # retrieve user's password and covert it to byte code
         db_password = db_user.password
+        code_db_password = db_password.encode('utf-8')
 
         # check if the inputted password matches password in the db
-        # if the password matches, log the user id in session
-        # and redirect user to their homepage
-        if password == db_password:
+        # if the password matches, log the user id in session and redirect user to their homepage
+        if bcrypt.checkpw(input_pwd, code_db_password):
             session['user_id'] = db_user.id
             return redirect('/user-home')
         # if the passowrd don't match, flash error msg and redirect user to log in page
@@ -104,6 +107,12 @@ def verify_account():
     phone = request.form.get("phone")
     zipcode = request.form.get("zipcode")
 
+    # cover pwd to bytecode & hash password
+    byte_pwd = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_pwd = bcrypt.hashpw(byte_pwd, salt)
+    decode_hashed_pwd = hashed_pwd.decode('utf-8')
+
     # get user from db using the inputted email using the get_user_by_email function
     # get_user_by_email function returns the user object
     user = crud.get_user_by_email(email)
@@ -116,7 +125,7 @@ def verify_account():
     # use the create_user function to create a new user with the form infos
     # add the new user to db then flash success msg and redirect user to log in
     else:
-        new_user = crud.create_user(fname, lname, email, password, phone, zipcode)
+        new_user = crud.create_user(fname, lname, email, decode_hashed_pwd, phone, zipcode)
         db.session.add(new_user)
         db.session.commit()
         flash("Account created successfully")
