@@ -51,11 +51,10 @@ class FlaskTestsBasics(TestCase):
             with c.session_transaction() as sess:
                 sess['user_id'] = '12'
 
-            result = self.client.get('/logout', follow_redirects=True)
-
-            self.assertEqual(result.status_code, 200)
-            self.assertNotIn(b'user_id', session)
-            self.assertIn(b"You've logged out.", result.data)
+        result = self.client.get('/logout', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertNotIn(b'user_id', sess)
+        self.assertIn(b"You've logged out.", result.data)
 
 class FlaskTestsDatabase(TestCase):
 
@@ -71,6 +70,11 @@ class FlaskTestsDatabase(TestCase):
         # create tables and add sample data
         db.create_all()
         testing_data()
+
+        # start each test with a user ID stored in the session
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = '1'
 
     def tearDown(self):
         print('running teardown')
@@ -138,10 +142,6 @@ class FlaskTestsDatabase(TestCase):
     def test_userhome(self):
         """Test userhome"""
 
-        with self.client as c:
-            with c.session_transaction() as sess:
-                sess['user_id'] = '1'
-
         result = self.client.get('/user-home')
         self.assertEqual(result.status_code, 200)
         self.assertIn(b'Account Information', result.data)
@@ -149,10 +149,6 @@ class FlaskTestsDatabase(TestCase):
 
     def test_add_muse_to_like(self):
         """Test add museum to user's liked list(db)"""
-
-        with self.client as c:
-            with c.session_transaction() as sess:
-                sess['user_id'] = '1'
 
         result = self.client.post("/add-to-list",
                                     json={
@@ -170,8 +166,6 @@ class FlaskTestsDatabase(TestCase):
         # check if this museum is added to the user-muse list
         liked = crud.check_like("1", "test_muse")
         self.assertTrue(liked)
-
-
 
 
 if __name__ == '__main__':
