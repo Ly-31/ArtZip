@@ -3,7 +3,6 @@
 from model import db, User, Museum, User_muse, connect_to_db
 import requests
 
-
 googlemap_key = 'AIzaSyB_18v8UhFjo18Pe6IsiJ8h1kwHyVnxVB8'
 
 

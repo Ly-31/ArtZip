@@ -1,7 +1,6 @@
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
 from model import connect_to_db, db
 import crud
-# from flask import Flask
 from jinja2 import StrictUndefined
 import os
 import json

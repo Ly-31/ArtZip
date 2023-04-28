@@ -11,6 +11,8 @@ btn.addEventListener('click', ()=>{
 const form = document.getElementById('change-pwd');
 const form_submit_btn = document.getElementById('submit-pwd-change');
 
+
+
 form_submit_btn.addEventListener('click',(evt)=>{
 
     evt.preventDefault()
@@ -47,3 +49,4 @@ form_submit_btn.addEventListener('click',(evt)=>{
         .catch(error => console.error(error));
     }
 });
+
