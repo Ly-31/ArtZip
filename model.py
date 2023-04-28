@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+import bcrypt
 
 db = SQLAlchemy()
 
@@ -65,7 +66,11 @@ def connect_to_db(flask_app, db_uri="postgresql:///artzip", echo=True):
 
 
 def testing_data():
-    test1 = User(fname="11", lname="11", email="11@gmail.com", password="11dsda")
+    password_1="11dsda"
+    test1_hased_pwd = bcrypt.hashpw(password_1.encode('utf-8'), bcrypt.gensalt())
+    decode_hashed_pwd_1 = test1_hased_pwd.decode('utf-8')
+
+    test1 = User(fname="11", lname="11", email="11@gmail.com", password=decode_hashed_pwd_1)
     test2 = User(fname="12", lname="22", email="12@gmail.com", password="12dsdajj", phone=9173652000)
     mm1 = Museum(name='m11', phone=9182727899, website="m11.com", googlemap_id="m11")
     mm2 = Museum(name='m12', website="m12.com", googlemap_id="m12")

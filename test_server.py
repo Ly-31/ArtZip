@@ -68,6 +68,7 @@ class FlaskTestsDatabase(TestCase):
         connect_to_db(app, "postgresql:///test_artzip")
 
         # create tables and add sample data
+        db.drop_all()
         db.create_all()
         testing_data()
 
