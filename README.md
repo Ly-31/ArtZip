@@ -19,4 +19,5 @@ Jinja
 Ajax
 HTML
 CSS
+Bootstrap
 
