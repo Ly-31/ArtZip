@@ -11,13 +11,4 @@ Dependencies
 
 ArtZip is built using the following technologies:
 
-Python
-Javascript
-Flask
-SQLAlchemy
-Jinja
-Ajax
-HTML
-CSS
-Bootstrap
-
+Python, Javascript,  Flask,  SQLAlchemy,  Jinja,  Ajax,  HTML,  CSS,  Bootstrap, Google Map API(Map api, places api, geocoding api)
