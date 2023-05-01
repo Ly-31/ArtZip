@@ -2,8 +2,6 @@ from flask import (Flask, render_template, request, flash, session, redirect, js
 from model import connect_to_db, db
 import crud
 from jinja2 import StrictUndefined
-import os
-import json
 import requests
 import bcrypt
 
@@ -336,8 +334,6 @@ def update_user_password():
     return{ "success": True,
             "status": 'Your password has been updated.'
     }
-
-
 
 if __name__ == "__main__":
     connect_to_db(app)
