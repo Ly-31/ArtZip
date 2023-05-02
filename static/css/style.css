@@ -68,6 +68,7 @@
     background-position: center;
     background-attachment: fixed;
     font-family: 'Poppins', sans-serif;
+    opacity: 0.8;
 }
 
 .user-home{

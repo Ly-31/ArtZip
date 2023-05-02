@@ -58,3 +58,5 @@ ArtZip is built using the following technologies:
 
 - Museum detail page (google map)
 ![Musuem_detail_page_2!](static/demo_img/muse_detail_2.png)
+
+<!-- <img src="static/demo_img/muse_detail_2.png" style="border: 5px sold blue"> -->
