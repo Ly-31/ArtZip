@@ -36,4 +36,4 @@ ArtZip is built using the following technologies:
 # Demo
 
 - Home page
-<img src='./static/demo_img/homepage.png'>
+![Alt text](/static/demo_img/homepage.png)
