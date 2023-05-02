@@ -36,4 +36,4 @@ ArtZip is built using the following technologies:
 # Demo
 
 - Home page
-![Homepage](./static/demo_img/homepage.png)
+![Homepage1](static/demo_img/homepage.png)
