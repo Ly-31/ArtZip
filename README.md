@@ -37,3 +37,24 @@ ArtZip is built using the following technologies:
 
 - Home page
 ![Homepage!](static/demo_img/homepage.png)
+
+- Login page
+![Login!](static/demo_img/login.png)
+
+- Create account page
+![Create_account_page!](static/demo_img/create_acct.png)
+
+- User home page 1
+![Userhome_page_1!](static/demo_img/userhome_1.png)
+
+- User home page 2(change password)
+![Userhome_page_2!](static/demo_img/userhome_2_change_pwd.png)
+
+- Search results page
+![Search_results!](static/demo_img/search_results.png)
+
+- Museum detail page 1
+![Musuem_detail_page_1!](static/demo_img/muse_detail_1.png)
+
+- Museum detail page (google map)
+![Musuem_detail_page_2!](static/demo_img/muse_detail_2.png)
