@@ -169,7 +169,7 @@ def result():
 
     # get the zipcode user searched from the search bar
     zipcode = request.args.get("search-bar-zipcode")
-    # print(f'*****{zipcode}')
+    print(f'*****{zipcode}')
 
     # check if user entered a zipcode
     if zipcode == "":
@@ -181,6 +181,7 @@ def result():
     geocode_url = 'https://maps.googleapis.com/maps/api/geocode/json'
     geocode_param = {'address': zipcode,'key': googlemap_key}
     geocode_response = requests.get(geocode_url, params=geocode_param)
+    # print(f'*********{geocode_response}')
 
     # check if the the API request was successful
     # if the request failed, show error code
@@ -191,6 +192,12 @@ def result():
     # gets the lat & lng from the json object using the lat & lng key
     try:
         geocode_data = geocode_response.json()
+
+        # check if user inputted a valid zipcode 
+        if geocode_data['status'] == 'ZERO_RESULTS':
+            flash('Invalid zipcode.')
+            return redirect('/')
+
         location = geocode_data['results'][0]['geometry']['location']
         lat, lng = location['lat'], location['lng']
 
